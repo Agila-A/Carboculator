@@ -4,19 +4,25 @@ import AboutPage from "./Components/LandingPage/AboutPage"; // Ensure correct ca
 import SignUpPage from "./Components/AccountSettings/SignUpPage"; // Ensure correct case
 import LoginPage from "./Components/AccountSettings/LoginPage"; // Ensure correct case
 import DashboardPage from "./Components/DashBoard/DashBoardPage";
+import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
+import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
 
 const App = () => {
   return (
 
     <>
     {/* <DashboardPage />*/}
-    <BrowserRouter>
+    {/* <BrowserRouter>
       <Routes>
         <Route path="/" element={<AboutPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
-    </BrowserRouter> 
+    </BrowserRouter>  */}
+    <RegistrationPage2 />
+    <RegistrationPage1 />
+    {/* <LoginPage /> */}
+
     </>
   );
 };
