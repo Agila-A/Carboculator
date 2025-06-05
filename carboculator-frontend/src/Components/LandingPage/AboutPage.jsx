@@ -6,7 +6,7 @@ import Services from "./Services";
 
 const AboutPage = () => {
   return (
-    <div className="bg-gray-100">
+    <div>
       <Navbar />
       <InfoSection />
       <Services />
