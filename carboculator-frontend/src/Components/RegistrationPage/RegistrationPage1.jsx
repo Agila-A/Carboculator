@@ -1,4 +1,3 @@
-import React from "react";
 import regimg from '../../assets/RegistrationPage/Regpage2.png';
 
 const RegistrationPage1 = () => {
@@ -11,7 +10,6 @@ const RegistrationPage1 = () => {
     border: "1px solid #D1D5DB",
     borderRadius: "0.375rem",
     outline: "none",
-
   };
 
   return (

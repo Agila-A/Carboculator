@@ -1,4 +1,4 @@
-import React from "react";
+
 import img3 from '../../assets/img3.png'
 const InfoSection = () => {
   return (

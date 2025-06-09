@@ -1,4 +1,3 @@
-import React from "react";
 import regimg2 from '../../assets/RegistrationPage/Regpage1.png';
 
 const RegistrationPage2 = () => {
