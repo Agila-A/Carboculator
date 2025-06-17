@@ -3,11 +3,8 @@
   import AboutPage from "./Components/LandingPage/AboutPage"; 
   import SignUpPage from "./Components/AccountSettings/SignUpPage"; 
   import LoginPage from "./Components/AccountSettings/LoginPage"; 
-  // import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
-  // import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
-import PlantTree from "./Components/DashBoard/PlantTree";
-import SideBar from "./Components/DashBoard/SideBar";
-import Visualization from "./Components/DashBoard/Visualization";
+import Visualization from "./Components/DashBoard/Visualization/Visualization";
+import CarbonCredits from "./Components/DashBoard/CarbonCredits";
 
   
   const App = () => {
@@ -20,12 +17,11 @@ import Visualization from "./Components/DashBoard/Visualization";
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>   */}
-      {/* <RegistrationPage2 />
-      <RegistrationPage1 /> */}
       {/* <LoginPage /> */}
       {/* <SideBar/> */}
-      {/* <PlantTree /> */}
-      <Visualization />
+     {/* <Visualization />
+    */}
+    <CarbonCredits />
 
       </>
   

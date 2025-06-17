@@ -1,7 +1,7 @@
 import EmissionBarChart from "./EmissionBarChart"
 import EmissionDonutChart from "./EmissionDonutChart"
 import MultiLineChart from "./MultiLineChart"
-import SideBar from "./SideBar"
+import SideBar from "../SideBar"
 
 const Visualization = () => {
   return (
