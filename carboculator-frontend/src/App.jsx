@@ -7,7 +7,8 @@ import Visualization from "./Components/DashBoard/Visualization/Visualization";
 import CarbonCredits from "./Components/DashBoard/CarbonCredits";
 import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
 import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
-import CreateAccount from "./Components/RegistrationPage/CreateAccount";
+
+
 
   
   const App = () => {
@@ -25,7 +26,7 @@ import CreateAccount from "./Components/RegistrationPage/CreateAccount";
      {/* <Visualization />
     */}
     {/* <CarbonCredits /> */}
-      {/* <RegistrationPage1 /> */}
+      <RegistrationPage1 /> 
       <RegistrationPage2 />
       {/* <CreateAccount /> */}
 
