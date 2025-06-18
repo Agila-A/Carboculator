@@ -1,14 +1,9 @@
 
-  import { BrowserRouter, Routes, Route } from "react-router-dom";
-  import AboutPage from "./Components/LandingPage/AboutPage"; 
-  import SignUpPage from "./Components/AccountSettings/SignUpPage"; 
-  import LoginPage from "./Components/AccountSettings/LoginPage"; 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AboutPage from "./Components/LandingPage/AboutPage"; 
+import SignUpPage from "./Components/AccountSettings/SignUpPage"; 
+import LoginPage from "./Components/AccountSettings/LoginPage"; 
 import Visualization from "./Components/DashBoard/Visualization/Visualization";
-import CarbonCredits from "./Components/DashBoard/CarbonCredits";
-import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
-import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
-
-
 
   
   const App = () => {
@@ -21,14 +16,9 @@ import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>   */}
-      {/* <LoginPage /> */}
-      {/* <SideBar/> */}
-     {/* <Visualization />
-    */}
-    {/* <CarbonCredits /> */}
-      <RegistrationPage1 /> 
-      <RegistrationPage2 />
-      {/* <CreateAccount /> */}
+
+     <Visualization />
+   
 
       </>
   

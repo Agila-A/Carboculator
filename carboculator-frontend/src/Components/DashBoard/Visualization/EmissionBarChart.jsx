@@ -28,14 +28,14 @@ const EmissionBarChart = () => {
   }, []);
 
   const data = {
-    labels: ['2021', '2022', '2023', '2024', '2025'],
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     datasets: [
       {
         label: 'Carbon Emitted (Million tonnes)',
-        data: [3, 7.5, 6.1, 8.8, 6.2],
+        data: [3, 7.5, 6.1, 8.8, 6.2,7.2,3,6,7,5,7, 8.2 ,8.7,9],
         backgroundColor: gradient || '#1e3a8a',
-        borderRadius: 8,
-        barThickness: 30,
+        borderRadius: 0,
+        barThickness: 20,
         categoryPercentage: 0.9,
         barPercentage: 1.0,
       }
@@ -66,7 +66,7 @@ const EmissionBarChart = () => {
         },
         title: {
           display: true,
-          text: '( Year )',
+          text: '( Year - 2024 )',
           font: { size: 14 },
         }
       },
