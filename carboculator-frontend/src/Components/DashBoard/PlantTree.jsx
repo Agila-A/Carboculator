@@ -2,12 +2,11 @@ import tree from "../../assets/tree.png"
 import leaf from "../../assets/leaf.png"
 import leaves from "../../assets/leaves.png"
 import leaf2 from "../../assets/leaf2.png"
-import SideBar from "./SideBar"
+
 
 const PlantTree = () => {
   return (
     <div style={{display:"flex"}}>
-    <SideBar />
     <div style={{height:"100vh",width: '85%',margin:0,display:"flex",justifyContent:"flex-end",alignItems:"center"}}>
             <div style={{width:"50%",height:"100vh",padding:"5% 1%",boxSizing: "border-box"}}>
                

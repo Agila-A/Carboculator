@@ -1,12 +1,9 @@
-
 import carboncredit from '../../assets/Dashboardimg/ccimg.jpg';
-import SideBar from './SideBar';
 
 const Credits = () => {
   return (
     <div className="flex min-h-screen bg-white">
-      <SideBar />
-    <div className="flex-1 p-8">
+    <div className="flex-1 p-8" style={{overflowY:"auto"}}>
         <h1 className="text-6xl font-bold text-black mb-16">CARBON CREDIT</h1>
 
         <div className="border-2 border-black rounded-lg p-12 bg-white flex justify-between items-start">

@@ -8,6 +8,8 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Dummy from "./Components/Dashboard/Dummy"
 import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
 import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
+
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,10 +21,9 @@ const App = () => {
         <Route path="/dummy" element={<Dummy />} />
         <Route path="/registration" element={<RegistrationPage1 />} />
         <Route path="/registration2" element={<RegistrationPage2 />} />
-       
-        
-
       </Routes>
     </BrowserRouter>
   );
 };
+
+export default App
