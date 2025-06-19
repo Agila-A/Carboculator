@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import img4 from '../../assets/img4.png'
@@ -92,7 +92,7 @@ const SignUpPage = () => {
             />
             
             <button className="w-full bg-blue-700 text-white py-3 rounded-md text-lg font-semibold hover:bg-blue-800 transition">
-              Create Account
+              <Link to="/registration">Create Account</Link>
             </button>
           </form>
           

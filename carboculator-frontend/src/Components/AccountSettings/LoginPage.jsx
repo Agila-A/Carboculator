@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 import img4 from '../../assets/img4.png'
 const LoginPage = () => {
