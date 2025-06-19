@@ -6,8 +6,6 @@ import LoginPage from "./Components/AccountSettings/LoginPage";
 import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
 import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
 
-
-  
   const App = () => {
     return (
       <>
