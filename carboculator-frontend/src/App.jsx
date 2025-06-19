@@ -1,6 +1,5 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import AboutPage from "./Components/LandingPage/AboutPage";
 import SignUpPage from "./Components/AccountSettings/SignUpPage";
 import LoginPage from "./Components/AccountSettings/LoginPage";
@@ -26,3 +25,5 @@ const App = () => {
     </BrowserRouter>
   );
 };
+export default App;
+
