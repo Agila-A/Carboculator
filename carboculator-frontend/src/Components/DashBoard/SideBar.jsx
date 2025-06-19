@@ -20,13 +20,14 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import logo from '../../assets/Dashboardimg/logo.png'
 
 const sidebarItem1 = [
-  { icon: <HomeOutlinedIcon />, text: 'Home' },
-  { icon: <CalculateOutlinedIcon />, text: 'Calculate' },
-  { icon: <TimelineOutlinedIcon />, text: 'Visualize' },
-  { icon: <SpaOutlinedIcon />, text: 'Plant a Tree' },
-  { icon: <NotificationsActiveOutlinedIcon />, text: 'Monitor' },
-  { icon: <MonetizationOnOutlinedIcon />, text: 'Credits' },
+  { icon: <HomeOutlinedIcon />, text: 'Home', page: 'display' },
+  { icon: <CalculateOutlinedIcon />, text: 'Calculate', page: 'calculate' },
+  { icon: <TimelineOutlinedIcon />, text: 'Visualize', page: 'visualize' },
+  { icon: <SpaOutlinedIcon />, text: 'Plant a Tree', page: 'tree' },
+  { icon: <NotificationsActiveOutlinedIcon />, text: 'Monitor', page: 'monitor' },
+  { icon: <MonetizationOnOutlinedIcon />, text: 'Credits', page: 'credits' },
 ];
+
 const sidebarItem2 = [
   { icon: <FeedbackOutlinedIcon />, text: 'Feedback' },
   { icon: <NotificationsActiveOutlinedIcon />, text: 'Notification' },
@@ -34,18 +35,19 @@ const sidebarItem2 = [
   { icon: <LogoutOutlinedIcon />, text: 'Logout' },
 ];
 
-const SideBar = () => {
+const SideBar = ({ setActivePage }) => {
   return (
     <Box
       sx={{
         ml:0,
-        width: "15%",
+        width: { xs: '60px', sm: '80px', md: '15%' },
         maxHeight: '100vh',
         backgroundColor: 'rgba(213, 213, 213, 0.55)',
         display: 'flex',
         flexDirection: 'column',
         boxShadow: '2px 0 10px rgba(0,0,0,0.05)',
-         p:1,
+         p:2,
+         
       }}
     >
       <img src={logo}></img>
@@ -55,6 +57,7 @@ const SideBar = () => {
           {sidebarItem1.map((item, index) => (
             <ListItem key={index} disablePadding>
               <ListItemButton
+               onClick={() => setActivePage(item.page)}
                 sx={{
                   borderRadius: 2,
                   px: 2,

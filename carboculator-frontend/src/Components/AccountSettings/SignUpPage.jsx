@@ -92,7 +92,7 @@ const SignUpPage = () => {
             />
             
             <button className="w-full bg-blue-700 text-white py-3 rounded-md text-lg font-semibold hover:bg-blue-800 transition">
-              Create Account
+              <Link to="/registration">Create Account</Link>
             </button>
           </form>
           

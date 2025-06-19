@@ -2,6 +2,7 @@ import { TextField, IconButton, InputAdornment ,MenuItem} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 import Regimg from "../../assets/RegistrationPage/Regpage2.png"
+import { Link } from 'react-router-dom';
 
 const RegistrationPage1 = () => {
   //Data's
@@ -87,7 +88,9 @@ const RegistrationPage1 = () => {
                 </MenuItem>
               ))} 
             </TextField>
-            <button style={{backgroundColor:"blue",color:"white",border:"none",fontWeight:'bold',fontSize:'20px',padding:"0.5% 3%",borderRadius:"25px",width:"30%",height:"7vh",margin:"1%"}}>NEXT</button>
+            <button style={{backgroundColor:"blue",color:"white",border:"none",fontWeight:'bold',fontSize:'20px',padding:"0.5% 3%",borderRadius:"25px",width:"30%",height:"7vh",margin:"1%"}} >
+              <Link to='/registration2'>NEXT</Link>
+            </button>
           </div>
         </div>
       </div>

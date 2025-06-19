@@ -2,7 +2,7 @@
 import carboncredit from '../../assets/Dashboardimg/ccimg.jpg';
 import SideBar from './SideBar';
 
-const CarbonCredits = () => {
+const Credits = () => {
   return (
     <div className="flex min-h-screen bg-white">
       <SideBar />
@@ -77,4 +77,4 @@ const CarbonCredits = () => {
   );
 };
 
-export default CarbonCredits;
+export default Credits;

@@ -3,7 +3,7 @@ import EmissionDonutChart from "./EmissionDonutChart"
 import MultiLineChart from "./MultiLineChart"
 import SideBar from "../SideBar"
 
-const Visualization = () => {
+const Visualize = () => {
   return (
     <div style={{display:"flex",height:"100vh"}}>
     <SideBar />
@@ -28,4 +28,4 @@ const Visualization = () => {
   )
 }
 
-export default Visualization
+export default Visualize
