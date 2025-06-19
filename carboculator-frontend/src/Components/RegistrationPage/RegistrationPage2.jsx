@@ -1,6 +1,7 @@
 import { TextField ,MenuItem } from '@mui/material'
 import React, { useState } from 'react'
 import Regimg from "../../assets/RegistrationPage/Regpage1.png"
+import { Link } from 'react-router-dom';
 
 const RegistrationPage2 = () => {
   //Data
@@ -57,7 +58,7 @@ const RegistrationPage2 = () => {
           <h1 style={{fontWeight:'bold',fontSize:"35px",textAlign:"center",padding:"2% 0% 0% 0%"}}>REGISTRATION</h1>
           <h4 style={{fontWeight:"bold",color:"gray",padding:"2% 1%",fontSize:"20px",textAlign:"center"}}>MINE DETAILS</h4>
           <div style={{display:'flex',flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-          <TextField style={inpStyle} label="Enter Mine Name" type='text'/>
+          <TextField required style={inpStyle} label="Enter Mine Name" type='text'/>
           <TextField
             select
             label="Select Your Designation/Role"
@@ -84,9 +85,11 @@ const RegistrationPage2 = () => {
                 </MenuItem>
               ))}
           </TextField>
-          <TextField style={inpStyle} label="Enter Annual Coal Production (Tonnes)" />
-          <TextField style={inpStyle} label="Enter Annual Energy Consumption (MWh)"/>
-          <button style={{backgroundColor:"blue",color:"white",border:"none",fontWeight:'bold',fontSize:'20px',padding:"0.5% 3%",borderRadius:"25px",width:"30%",height:"7vh",margin:"1%"}}>COMPLETE</button>
+          <TextField style={inpStyle} label="Enter Annual Coal Production (Tonnes)" required/>
+          <TextField style={inpStyle} label="Enter Annual Energy Consumption (MWh)" required/>
+          <button style={{backgroundColor:"blue",color:"white",border:"none",fontWeight:'bold',fontSize:'20px',padding:"0.5% 3%",borderRadius:"25px",width:"30%",height:"7vh",margin:"1%"}}>
+            <Link to="/dash">COMPLETE</Link>
+          </button>
           </div>
         </div>
       </div>

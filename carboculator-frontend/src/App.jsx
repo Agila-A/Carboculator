@@ -1,10 +1,9 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import AboutPage from "./Components/LandingPage/AboutPage";
 import SignUpPage from "./Components/AccountSettings/SignUpPage";
 import LoginPage from "./Components/AccountSettings/LoginPage";
-import Dashboard from "./Components/Dashboard/Dashboard";
+import Dashboard from "./Components/DashBoard/Dashboard";
 import Dummy from "./Components/Dashboard/Dummy"
 import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
 import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
