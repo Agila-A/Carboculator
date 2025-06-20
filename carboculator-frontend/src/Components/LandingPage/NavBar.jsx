@@ -28,23 +28,24 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-10 md:px-20 py-32 mt-12">
-        <div className="md:w-1/2">
-          <h2 className="text-4xl font-bold text-black uppercase">
-            CARBON FOOTPRINT CALCULATOR
-          </h2>
-          <p className="text-lg font-medium text-gray-700 mt-2">
-            FOR INDIAN COAL MINES
-          </p>
-          <p className="max-w-md text-gray-600 mt-4">
-            Track your mine's impact and turn carbon challenges into green opportunities. 
-            Our calculator paves the path to a carbon-neutral future. Calculate your 
-            carbon footprint with us and play a vital role in making India a ‘zero carbon emission’ country.
-          </p>
+        <div className="md:w-1/2 flex flex-col space-y-6">
+  <h2 className="text-4xl font-bold text-black uppercase">
+    CARBON FOOTPRINT CALCULATOR
+  </h2>
+  <p className="text-lg font-medium text-gray-700">
+    FOR INDIAN COAL MINES
+  </p>
+  <p className="max-w-md text-gray-600">
+    Track your mine's impact and turn carbon challenges into green opportunities. 
+    Our calculator paves the path to a carbon-neutral future. Calculate your 
+    carbon footprint with us and play a vital role in making India a ‘zero carbon emission’ country.
+  </p>
 
-          <Link to="/signup" className="mt-16 bg-[#BBCADD] text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-[#AAB9CC]">
-            GET STARTED
-          </Link>
-        </div>
+  <Link to="/signup" className="bg-[#BBCADD] text-gray-900 px-6 py-3 rounded-md font-semibold hover:bg-[#AAB9CC] self-start">
+    GET STARTED
+  </Link>
+</div>
+
 
         {/* Circular Image */}
         <div className="md:w-1/2 flex justify-center mt-10 md:mt-0">
