@@ -3,7 +3,7 @@ import img2 from '../../assets/img2.png'
 import img1 from '../../assets/img1.png'
 const Commitment = () => {
   return (
-    <section className="py-16 px-6 bg-white relative">
+    <section className="py-32 px-6 bg-white relative">
       {/* Optional Coal Rock Decoration */}
       <img 
         src={img1} 
@@ -14,8 +14,8 @@ const Commitment = () => {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
         {/* Text Content */}
         <div className="md:w-1/2">
-          <h3 className="text-2xl font-semibold">Commitment to Sustainability</h3>
-          <p className="text-gray-800 mt-4 font-medium">
+          <h3 className="text-4xl font-semibold">Commitment to Sustainability</h3>
+          <p className="text-gray-900 mt-4 font-medium">
             <strong>Alignment with Sustainable Development Goals (SDGs)</strong>
           </p>
           <p className="text-gray-600 mt-2 text-sm">

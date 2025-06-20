@@ -2,7 +2,7 @@ import React from "react";
 import img3 from '../../assets/img3.png'
 const InfoSection = () => {
   return (
-    <section className="py-16 px-6 bg-white flex items-center justify-center">
+    <section className="py-32 px-6 bg-white flex items-center justify-center">
       <div className="max-w-6xl w-full flex flex-col md:flex-row items-center">
         {/* Left Side - Circular Image */}
         <div className="md:w-1/2 flex justify-center">
