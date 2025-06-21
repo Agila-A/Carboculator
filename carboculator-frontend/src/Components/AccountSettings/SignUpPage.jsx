@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
-import img4 from '../../assets/img4.png'
+import { FaFacebook } from "react-icons/fa";
+import img4 from '../../assets/img4.png';
 import { Link } from "react-router-dom";
+
 const SignUpPage = () => {
   const [language, setLanguage] = useState("English (UK)");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showFacebookPopup, setShowFacebookPopup] = useState(false);
-  
+
   const languages = ["English (UK)", "Tamil (IND)", "Hindi (IND)"];
 
   return (
@@ -23,7 +23,7 @@ const SignUpPage = () => {
           CARBON FOOTPRINT FINDER
         </div>
       </div>
-      
+
       {/* Right Section */}
       <div className="w-full lg:w-1/2 flex justify-center items-center p-10 relative">
         {/* Language Selector */}
@@ -56,23 +56,19 @@ const SignUpPage = () => {
 
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Create Account</h2>
-          
+
           {/* Social Signup Buttons */}
           <div className="flex flex-col space-y-4 mb-6">
-            <GoogleLogin 
-              onSuccess={(response) => console.log(response)}
-              onError={() => console.log("Login Failed")} 
-            />
-            <button 
+            <button
               className="flex items-center justify-center p-3 border rounded-lg shadow-sm text-gray-700 bg-white"
               onClick={() => setShowFacebookPopup(true)}
             >
               <FaFacebook className="h-5 w-5 mr-2" /> Sign up with Facebook
             </button>
           </div>
-          
+
           <div className="text-center text-gray-500 mb-4">- OR -</div>
-          
+
           {/* Input Fields */}
           <form>
             <input
@@ -90,16 +86,18 @@ const SignUpPage = () => {
               placeholder="Password"
               className="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            
+
             <button className="w-full bg-blue-700 text-white py-3 rounded-md text-lg font-semibold hover:bg-blue-800 transition">
               <Link to="/registration">Create Account</Link>
             </button>
           </form>
-          
-          <p className="text-center text-gray-600 mt-4">
-      Already have an account? <Link to="/login" className="text-blue-700 font-semibold">Login</Link>
-         </p>
 
+          <p className="text-center text-gray-600 mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-700 font-semibold">
+              Login
+            </Link>
+          </p>
         </div>
       </div>
 
@@ -116,7 +114,9 @@ const SignUpPage = () => {
             <h2 className="text-xl font-bold text-blue-700 flex items-center">
               <FaFacebook className="h-6 w-6 mr-2" /> Facebook
             </h2>
-            <p className="mt-2 text-sm">Login to use your Facebook account with <strong>Carbon Footprint Finder</strong></p>
+            <p className="mt-2 text-sm">
+              Login to use your Facebook account with <strong>Carbon Footprint Finder</strong>
+            </p>
             <input
               type="email"
               placeholder="Email address or phone number"

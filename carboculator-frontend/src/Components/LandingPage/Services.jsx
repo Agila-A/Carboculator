@@ -26,15 +26,17 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="py-16 px-6 bg-gray-100">
+    <section className="py-32 px-6 bg-gray-100">
+
       <div className="max-w-6xl mx-auto text-center">
         <h3 className="text-2xl font-bold">Our Services and Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
           {services.map((service, index) => (
             <div
-              key={index}
-              className={`p-6 rounded-xl shadow-md ${service.bgColor} flex flex-col justify-between`}
-            >
+  key={index} className={`cursor-pointer p-6 rounded-xl shadow-md ${service.bgColor} flex flex-col justify-between transform transition duration-500 ease-in-out hover:-translate-y-3 hover:scale-105 hover:shadow-2xl`}
+>
+  
+
               <div className="flex items-center space-x-2">
                 <FaRegClipboard className="text-xl text-gray-700" />
                 <h4 className="font-semibold">{service.title}</h4>
