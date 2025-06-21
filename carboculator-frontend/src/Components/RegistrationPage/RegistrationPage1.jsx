@@ -57,8 +57,8 @@ const RegistrationPage1 = () => {
           <h1 style={{fontWeight:'bold',fontSize:"35px",textAlign:"center",padding:"2% 0% 0% 0%"}}>REGISTRATION</h1>
           <h4 style={{fontWeight:"bold",color:"gray",padding:"2% 1%",fontSize:"20px",textAlign:"center"}}>USER DETAILS</h4>
           <div style={{display:'flex',flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-            <TextField style={inpStyle} label="Enter Your Name" type='text'/>
-            <TextField style={inpStyle} label="Enter Your Email" type='email'/>
+            <TextField style={inpStyle} label="Enter Your Name" type='text' required/>
+            <TextField style={inpStyle} label="Enter Your Email" type='email' required/>
             <TextField
                 label="Enter Your Password"
                 type={showPassword ? 'text' : 'password'}
@@ -71,10 +71,10 @@ const RegistrationPage1 = () => {
                       </IconButton>
                     </InputAdornment>
                   )
-                }}
+                }}required
               />
-            <TextField style={inpStyle} label="Enter Your Phone Number" type="number"/>
-            <TextField style={inpStyle} label="Enter Your Company Name" type='text'/>
+            <TextField style={inpStyle} label="Enter Your Phone Number" type="number" required/>
+            <TextField style={inpStyle} label="Enter Your Company Name" type='text' required/>
             <TextField
               select
               label="Select Your Designation/Role"
