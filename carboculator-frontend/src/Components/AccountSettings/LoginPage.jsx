@@ -1,15 +1,11 @@
-<<<<<<< Updated upstream
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
-import img4 from '../../assets/img4.png'
-=======
-import { useState } from "react";
-import { FaUser, FaLock } from "react-icons/fa"; // FaEnvelope is not used here, removed it
 import img4 from '../../assets/img4.png';
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
->>>>>>> Stashed changes
 const LoginPage = () => {
     const [language, setLanguage] = useState("English (UK)");
     const [showDropdown, setShowDropdown] = useState(false);

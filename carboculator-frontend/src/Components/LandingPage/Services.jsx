@@ -1,4 +1,4 @@
-import React from "react";
+
 import { FaRegClipboard } from "react-icons/fa"; // Clipboard icon for uniformity
 import { BsArrowRight } from "react-icons/bs"; // Arrow icon for navigation
 
