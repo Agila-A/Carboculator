@@ -1,18 +1,20 @@
 import carboncredit from "../../assets/Dashboardimg/ccimg.jpg";
+import React from 'react'
 
 const Credits = () => {
   return (
-    <div className="flex min-h-screen bg-white w-17/20">
-      <div className="flex-1 p-8 ">
-        <h1 className="text-6xl font-bold text-black mb-16">CARBON CREDIT</h1>
-        <div className="border-2 border-black rounded-lg p-12 bg-white flex justify-between items-start">
+    <div className="flex h-screen bg-white w-17/20">
+      <div className=" flex-1 p-8">
+        <h1 className="text-4xl font-bold text-black pb-10">CARBON CREDIT</h1>
+        <div className="flex items-center justify-center">
+        <div className="border-2 border-black rounded-lg p-8 bg-white flex justify-between items-start w-19/20">
           {/* Left Side - Form */}
-          <div className="w-1/2 space-y-8">
-            <h2 className="text-3xl font-bold text-black mb-12">
+          <div className="w-1/2 ">
+            <h2 className="text-2xl font-bold text-black pb-8">
               REQUIRED DETAILS TO CALCULATE
             </h2>
 
-            <div className="space-y-14">
+            <div className="space-y-10">
               {[
                 { label: "Total amount consumed", unit: "tons/month" },
                 { label: "Water Extraction", unit: "kWh/month" },
@@ -22,7 +24,7 @@ const Credits = () => {
                 <div key={index} className="flex gap-6 items-center">
                   <div className="w-64">
                     <button
-                      className="text-white py-4 w-full rounded shadow text-sm text-center shadow-md border border-black font-bold"
+                      className="text-white py-4 w-full rounded  text-sm text-center shadow-md border border-black font-bold"
                       style={{ backgroundColor: "#446891" }}
                     >
                       {field.label}
@@ -37,7 +39,7 @@ const Credits = () => {
               ))}
             </div>
 
-            <div className="flex justify-between items-center mt-6">
+            <div className="flex justify-between items-center pt-10">
               <div>
                 <button className="p-2 border border-black rounded">
                   <svg
@@ -83,13 +85,14 @@ const Credits = () => {
               </div>
             </div>
           </div>
-          <div className="w-1/2 flex justify-center">
+          <div className="w-1/2 flex justify-center items-center ">
             <img
               src={carboncredit}
               alt="Carbon Credit"
-              className="w-4/5 h-auto mt-16"
+              className="w-4/5 h-auto py-20 ml-10"
             />
           </div>
+        </div>
         </div>
       </div>
     </div>
