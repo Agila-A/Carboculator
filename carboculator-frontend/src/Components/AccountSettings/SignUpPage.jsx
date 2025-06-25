@@ -1,14 +1,11 @@
 
 import React, { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
 import img4 from '../../assets/img4.png';
 import { Link , useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
     const [language, setLanguage] = useState("English (UK)");
     const [showDropdown, setShowDropdown] = useState(false);
-    const [showFacebookPopup, setShowFacebookPopup] = useState(false);
     // Form States
     const [fullName, setFullName] = useState(""); // Although not directly used for API call here, keeping for consistency with original login page for now
     const [email, setEmail] = useState("");
