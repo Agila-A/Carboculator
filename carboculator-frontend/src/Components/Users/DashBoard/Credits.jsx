@@ -1,4 +1,4 @@
-import carboncredit from "../../assets/Dashboardimg/ccimg.jpg";
+import carboncredit from "../../../assets/Dashboardimg/ccimg.jpg";
 
 const Credits = () => {
   return (

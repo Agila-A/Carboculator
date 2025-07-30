@@ -2,7 +2,7 @@
 import { TextField, IconButton, InputAdornment, MenuItem } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState, useEffect } from 'react'; // Import useEffect
-import Regimg from "../../assets/RegistrationPage/Regpage2.png";
+import Regimg from "../../../assets/RegistrationPage/Regpage2.png";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const RegistrationPage1 = () => {

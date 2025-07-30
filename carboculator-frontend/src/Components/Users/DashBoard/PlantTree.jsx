@@ -1,7 +1,7 @@
-import tree from "../../assets/tree.png"
-import leaf from "../../assets/leaf.png"
-import leaves from "../../assets/leaves.png"
-import leaf2 from "../../assets/leaf2.png"
+import tree from "../../../assets/tree.png"
+import leaf from "../../../assets/leaf.png"
+import leaves from "../../../assets/leaves.png"
+import leaf2 from "../../../assets/leaf2.png"
 
 
 const PlantTree = () => {
