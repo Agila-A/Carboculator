@@ -1,12 +1,12 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AboutPage from "./Components/LandingPage/AboutPage";
-import SignUpPage from "./Components/AccountSettings/SignUpPage";
-import LoginPage from "./Components/AccountSettings/LoginPage";
-import Dashboard from "./Components/DashBoard/Dashboard";
-import Dummy from "./Components/Dashboard/Dummy"
-import RegistrationPage1 from "./Components/RegistrationPage/RegistrationPage1";
-import RegistrationPage2 from "./Components/RegistrationPage/RegistrationPage2";
+import AboutPage from "./Components/Users/LandingPage/AboutPage";
+import SignUpPage from "./Components/Users/AccountSettings/SignUpPage";
+import LoginPage from "./Components/Users/AccountSettings/LoginPage";
+import Dashboard from "./Components/Users/DashBoard/Dashboard";
+import Dummy from "./Components/Users/DashBoard/Dummy"
+import RegistrationPage1 from "./Components/Users/RegistrationPage/RegistrationPage1";
+import RegistrationPage2 from "./Components/Users/RegistrationPage/RegistrationPage2";
 
 
 const App = () => {

@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material';
 import React from 'react';
-import water from "../../assets/Dashboardimg/water.png"
+import water from "../../../assets/Dashboardimg/water.png"
 const Electricity = () => {
   return (
      <Box sx={{width:"100%",maxWidth:'66.25rem',minHeight: "31.8rem",border:'2px solid grey',ml:"5rem",mr:"2.5rem",display:"flex",alignItems:"center",justifyContent:"space-around"}}>

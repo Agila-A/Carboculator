@@ -1,7 +1,7 @@
 import { Box, Card, CardMedia, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import SideBar from './SideBar';
-import Display from '../Dashboard/Display';
+import Display from './Display';
 import Calculate from './Calculatation/Calculate';
 import PlantTree from './PlantTree';
 import Credits from './Credits';
@@ -17,7 +17,6 @@ const Dash = () => {
       {activePage === 'calculate' && <Calculate />}
       {activePage === 'visualize' && <Visualize />}
       {activePage === 'tree' && <PlantTree />}
-      {activePage === 'monitor' && <Monitor />}
       {activePage === 'credits' && <Credits />}
 
     </Box>
