@@ -1,5 +1,5 @@
 // backend/controllers/authController.js
-const User = require('../models/User'); // Import the Sequelize User model
+const User = require('../models/user'); // Import the Sequelize User model
 const jwt = require('jsonwebtoken');
 
 // @desc    Register user
