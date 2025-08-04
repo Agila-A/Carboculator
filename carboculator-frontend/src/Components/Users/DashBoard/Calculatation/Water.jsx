@@ -1,5 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material';
-import water from "../../../../assets/Dashboardimg/water.png";
+import React from 'react';
+import water from '../../../../assets/Dashboardimg/water.png';
 
 const Water = () => {
   return (
