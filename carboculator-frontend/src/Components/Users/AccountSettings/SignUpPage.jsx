@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import img4 from '../../assets/img4.png';
+import img4 from '../../../assets/img4.png';
 import { Link , useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {

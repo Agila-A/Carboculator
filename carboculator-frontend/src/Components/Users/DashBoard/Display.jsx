@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Card, CardMedia, Typography } from '@mui/material';
-import co2 from '../../assets/Dashboardimg/co2.png';
-import emmision from '../../assets/Dashboardimg/emmision.png';
-import quota from '../../assets/Dashboardimg/quota.png';
-import credits from '../../assets/Dashboardimg/credits.png';
-import cal from '../../assets/Dashboardimg/cal.jpg';
+import co2 from '../../../assets/Dashboardimg/co2.png';
+import emmision from '../../../assets/Dashboardimg/emmision.png';
+import quota from '../../../assets/Dashboardimg/quota.png';
+import credits from '../../../assets/Dashboardimg/credits.png';
+import cal from '../../../assets/Dashboardimg/cal.jpg';
 import {
   BarChart,
   Bar,

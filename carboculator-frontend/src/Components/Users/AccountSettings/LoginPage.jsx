@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
-import img4 from '../../assets/img4.png';
+import img4 from '../../../assets/img4.png';
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const LoginPage = () => {

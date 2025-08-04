@@ -1,5 +1,5 @@
 
-import img3 from '../../assets/img3.png'
+import img3 from '../../../assets/img3.png'
 const InfoSection = () => {
   return (
     <section className="py-32 px-6 bg-white flex items-center justify-center">

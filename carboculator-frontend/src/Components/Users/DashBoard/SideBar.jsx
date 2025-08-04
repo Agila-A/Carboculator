@@ -16,7 +16,7 @@ import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import logo from '../../assets/Dashboardimg/logo.png';
+import logo from '../../../assets/Dashboardimg/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const sidebarItem1 = [

@@ -1,5 +1,9 @@
+<<<<<<< HEAD:carboculator-frontend/src/Components/DashBoard/Credits.jsx
 import carboncredit from "../../assets/Dashboardimg/ccimg.jpg";
 import React from 'react'
+=======
+import carboncredit from "../../../assets/Dashboardimg/ccimg.jpg";
+>>>>>>> 46caa1038a898c3dfec754e61e7a9aedf52bf7ea:carboculator-frontend/src/Components/Users/DashBoard/Credits.jsx
 
 const Credits = () => {
   return (

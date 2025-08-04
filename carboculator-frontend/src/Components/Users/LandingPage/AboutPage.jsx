@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import InfoSection from "./InfoSection";
 import Navbar from "./NavBar";
 import Services from "./Services";
-import "../../index.css"
+import "../../../index.css"
 
 const AboutPage = () => {
   return (
