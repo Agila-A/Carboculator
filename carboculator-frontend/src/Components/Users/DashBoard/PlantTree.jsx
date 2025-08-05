@@ -6,7 +6,6 @@ import { TextField, MenuItem } from '@mui/material';
 import { useEffect, useState } from "react";
 import { useEmission } from '../Context/EmmissionContext';
 
-
 const PlantTree = () => {
     
     const {emission, transportEmission}=useEmission();
@@ -16,9 +15,45 @@ const PlantTree = () => {
     const [noOfTrees,setNoOfTrees]=useState("0");
     const [species,setSpecies]=useState("Neem");
 
-    useEffect(()=>{
+    useEffect(() => {
+        let treeAbsorptionRate = 0;
+        let landPerTree = 0;
 
-    },[species]);
+       
+        switch(species) {
+            case 'Neem':
+                treeAbsorptionRate = 30;  
+                landPerTree = 4;       
+                break;
+            case 'Peepal':
+                treeAbsorptionRate = 35;
+                landPerTree = 5;
+                break;
+            case 'Banyan':
+                treeAbsorptionRate = 40;
+                landPerTree = 6;
+                break;
+            case 'Mango':
+                treeAbsorptionRate = 25;
+                landPerTree = 3.5;
+                break;
+            default:
+                treeAbsorptionRate = 30;
+                landPerTree = 4;
+        }
+
+        if (totalEmission > 0) {
+            const numberOfTrees = Math.ceil(totalEmission / treeAbsorptionRate);
+            const landRequired = numberOfTrees * landPerTree;
+
+            setNoOfTrees(numberOfTrees.toString());
+            setLand(landRequired.toFixed(2).toString());
+        } else {
+            setNoOfTrees("0");
+            setLand("0");
+        }
+    }, [species, totalEmission]); 
+
   return (
     <div style={{height:"100vh",width: '85%',margin:0,display:"flex",justifyContent:"flex-end",alignItems:"center"}}>
             <div style={{width:"50%",height:"100%",padding:"5% 1%",boxSizing: "border-box",display:"flex",flexDirection:"column"}}>
@@ -33,7 +68,7 @@ const PlantTree = () => {
                 <div style={{display:"flex",flexDirection:"column",width:"65%",border:"1px solid ",marginLeft:"7%",padding:"1%",marginTop:0,borderRadius:"5px"}}>
                     <div style={{display:"flex",width:"94%",padding:"3%"}}>
                         <div style={{width:"35%"}}>Area of Land Required</div>
-                        <div style={{width:"70%",height:"79%",border:"1px solid grey",borderRadius:"5px",display:"flex",justifyContent:"center",alignItems:"center"}}>{land}</div>
+                        <div style={{width:"70%",height:"79%",border:"1px solid grey",borderRadius:"5px",display:"flex",justifyContent:"center",alignItems:"center"}}>{land} Meter Square</div>
                     </div>
                     <div style={{display:"flex",width:"94%",padding:"3%"}}>
                         <div style={{width:"35%"}}>No of trees to be planted</div>
@@ -61,4 +96,4 @@ const PlantTree = () => {
   )
 }
 
-export default PlantTree
+export default PlantTree;
