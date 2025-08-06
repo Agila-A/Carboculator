@@ -1,3 +1,4 @@
+// Electricity.jsx (Frontend)
 import { Box, Button, TextField, Typography, Autocomplete, Tooltip } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -27,7 +28,6 @@ const Electricity = () => {
   const [amount, setAmount] = useState('');
   const [errors, setErrors] = useState({});
   const [data, setData] = useState([]);
-  const [totalEmission, setTotalEmission] = useState(0); // ✅ new state
 
   // 🔃 Fetch data from backend on mount
   useEffect(() => {
@@ -38,14 +38,6 @@ const Electricity = () => {
           emission: ((item.amount * (emissionFactors[item.source] || 0)) / 1000).toFixed(4)
         }));
         setData(updated);
-
-        // ✅ Calculate total emission
-        let total = 0;
-        res.data.forEach(item => {
-          const factor = emissionFactors[item.source] || 0;
-          total += (item.amount * factor) / 1000;
-        });
-        setTotalEmission(total.toFixed(2));
       })
       .catch(err => console.error('Error fetching data:', err));
   }, []);
@@ -69,20 +61,12 @@ const Electricity = () => {
       const factor = emissionFactors[source] || 0;
       const calculatedEmission = ((amount * factor) / 1000).toFixed(4);
 
-      const updatedData = [...data, {
+      setData(prev => [...prev, {
         ...newItem,
         emission: calculatedEmission
-      }];
+      }]);
 
-      setData(updatedData);
-
-      // ✅ Recalculate total
-      let total = 0;
-      updatedData.forEach(item => {
-        total += (item.amount * (emissionFactors[item.source] || 0)) / 1000;
-      });
-      setTotalEmission(total.toFixed(2));
-
+      // Reset fields
       setSource('');
       setAmount('');
     } catch (err) {
@@ -94,15 +78,7 @@ const Electricity = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/electricity/${id}`);
-      const updatedData = data.filter(item => item.id !== id);
-      setData(updatedData);
-
-      // ✅ Recalculate total
-      let total = 0;
-      updatedData.forEach(item => {
-        total += (item.amount * (emissionFactors[item.source] || 0)) / 1000;
-      });
-      setTotalEmission(total.toFixed(2));
+      setData(prev => prev.filter(item => item.id !== id));
     } catch (err) {
       console.error('Error deleting item:', err);
     }
@@ -181,11 +157,6 @@ const Electricity = () => {
             ))}
           </ul>
         </Box>
-
-        {/* ✅ Total Emission Display */}
-        <Typography variant="h6" sx={{ textAlign: 'right', pr: '2rem', mt: '1rem', fontWeight: 'bold' }}>
-          Total Emission: {totalEmission} kg CO₂
-        </Typography>
       </Box>
     </Box>
   );
@@ -204,3 +175,90 @@ const cellStyle = {
 };
 
 export default Electricity;
+
+
+
+// electricityData.js (Model)
+const { DataTypes: dt } = require('sequelize');
+const { sequelize } = require('../config/database');
+
+const ElectricityData = sequelize.define('ElectricityData', {
+  source: {
+    type: dt.STRING,
+    allowNull: false,
+  },
+  amount: {
+    type: dt.FLOAT,
+    allowNull: false,
+  }
+});
+
+module.exports = ElectricityData;
+
+
+
+// electricityController.js (Controller)
+const electricityData = require('../models/electricityData');
+
+// POST: Save electricity data
+exports.saveElectricityData = async (req, res) => {
+  try {
+    const { source, amount } = req.body;
+
+    if (!source || !amount) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const newData = await electricityData.create({ source, amount });
+    res.status(201).json({ message: 'Electricity data saved successfully', data: newData });
+  } catch (error) {
+    console.error('Error saving electricity data:', error);
+    res.status(500).json({ message: 'Server error while saving electricity data' });
+  }
+};
+
+// GET: Get all electricity data
+exports.getAllElectricityData = async (req, res) => {
+  try {
+    const data = await ElectricityData.findAll();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching electricity data:', error);
+    res.status(500).json({ message: 'Server error while fetching electricity data' });
+  }
+};
+
+// DELETE: Delete electricity data by ID
+exports.deleteElectricityData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await ElectricityData.destroy({ where: { id } });
+
+    if (deleted === 0) {
+      return res.status(404).json({ message: 'Electricity data not found' });
+    }
+
+    res.status(200).json({ message: 'Electricity data deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting electricity data:', error);
+    res.status(500).json({ message: 'Server error while deleting electricity data' });
+  }
+};
+
+
+
+// electricityRoutes.js (Routes)
+const express = require('express');
+const router = express.Router();
+const {
+  saveElectricityData,
+  getAllElectricityData,
+  deleteElectricityData
+} = require('../controllers/electricityController');
+
+router.post('/', saveElectricityData);
+router.get('/', getAllElectricityData);
+router.delete('/:id', deleteElectricityData);
+
+module.exports = router;
+
