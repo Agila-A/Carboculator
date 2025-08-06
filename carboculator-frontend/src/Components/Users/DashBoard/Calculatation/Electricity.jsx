@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Typography, Autocomplete, Tooltip } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useEmission } from '../../Context/EmmissionContext';
 
 // 🔌 Electricity sources related to coal mining
 const electricitySources = [
@@ -28,6 +29,7 @@ const Electricity = () => {
   const [errors, setErrors] = useState({});
   const [data, setData] = useState([]);
   const [totalEmission, setTotalEmission] = useState(0); // ✅ new state
+  const {setElectricityEmission}=useEmission();
 
   // 🔃 Fetch data from backend on mount
   useEffect(() => {
@@ -108,6 +110,12 @@ const Electricity = () => {
     }
   };
 
+  useEffect(()=>{
+    setElectricityEmission(totalEmission);
+  },[totalEmission])
+
+    
+
   return (
     <Box>
       <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "30rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
@@ -182,9 +190,9 @@ const Electricity = () => {
           </ul>
         </Box>
 
-        {/* ✅ Total Emission Display */}
-        <Typography variant="h6" sx={{ textAlign: 'right', pr: '2rem', mt: '1rem', fontWeight: 'bold' }}>
-          Total Emission: {totalEmission} kg CO₂
+        {/* Total Emission Display */}
+        <Typography sx={{ ml: '2rem', mt: '1rem', color: '#2e7d32', fontWeight: 600 }}>
+                  Total Emission: {totalEmission} kg CO₂
         </Typography>
       </Box>
     </Box>
