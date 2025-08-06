@@ -5,7 +5,8 @@ import { useEmission } from '../../Context/EmmissionContext'; // ✅ Import cont
 const Result = () => {
   const { emission, transportEmission ,electricityEmission } = useEmission(); // ✅ Access machine & transport emissions
   const totalEmission = (Number(emission) || 0) + (Number(transportEmission) || 0) + (Number(electricityEmission) || 0); // ✅ Total combined
-
+  const noOfWorkers=750;
+  const perCapitaEmission=(totalEmission/noOfWorkers).toFixed(3);
   return (
     <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "31.8rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
       <Typography 
@@ -36,7 +37,9 @@ const Result = () => {
           <Box sx={{ width: "20rem", height: "3.44rem", display: 'flex', justifyContent: "center", alignItems: "center", fontSize: "1.3rem" }}>
             Per Capita Emission
           </Box>
-          <Box sx={{ border: '1px solid grey', width: "12.5rem", height: "3.44rem", borderRadius: "0.5rem" }}></Box>
+          <Box sx={{ border: '1px solid grey', width: "12.5rem", height: "3.44rem", borderRadius: "0.5rem" , display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            {perCapitaEmission} kg
+          </Box>
         </Box>
 
         <Box sx={{ display: 'flex', gap: '3rem' }}>
