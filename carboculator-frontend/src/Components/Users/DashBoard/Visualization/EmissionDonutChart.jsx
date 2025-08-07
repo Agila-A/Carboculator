@@ -52,7 +52,7 @@ const EmissionDonutChart = () => {
   };
 
   return (
-    <div style={{display: "flex",justifyContent: "center",alignItems: "center",maxWidth:"100%",borderRadius: 10,}}>
+    <div style={{display: "flex",justifyContent: "center",alignItems: "center",maxWidth:"90%",borderRadius: 10,margin:"0% 0% 0% 3%"}}>
       {/* Donut Chart */}
       <div style={{ width: "50%", height:"29vh" }}>
         <Doughnut data={data} options={options} />

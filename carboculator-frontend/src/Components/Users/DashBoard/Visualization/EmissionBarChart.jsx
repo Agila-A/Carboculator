@@ -87,7 +87,7 @@ const EmissionBarChart = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '70%' }}>
+    <div style={{ width: '95%', height: '70%' ,margin:"0% 0% 0% 2%"}}>
       <Bar ref={chartRef} data={data} options={options} />
     </div>
   );

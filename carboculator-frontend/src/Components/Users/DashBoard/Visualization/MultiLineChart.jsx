@@ -126,7 +126,7 @@ const MultiLineChart = () => {
   };
 
   return (
-    <div style={{ width: "100%", height: "80%" }}>
+    <div style={{ width: "95%", height: "80%" , margin:"0% 0% 0% 2%"}}>
       <Line ref={chartRef} data={data} options={options} />
     </div>
   );

@@ -17,6 +17,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import Visualize from './Visualization/Visualize';
 
 
 const Display = () => {
@@ -28,7 +29,7 @@ const Display = () => {
 ];
 
   return (
-    <Box sx={{ p: 2, width:'85%',backgroundColor: '#f9f9f9', minHeight: '100vh',display:'flex',flexDirection:"column",gap:'1rem' }}>
+    <Box sx={{ p: 2, width:'85%',backgroundColor: '#f9f9f9', minHeight: '100vh',display:'flex',flexDirection:"column",gap:'1rem',overflowY:"auto"}}>
       {/* Title */}
       <Box sx={{ px: '2rem', mb: '2rem' }}>
   <Typography fontWeight="bold" color="#222" sx={{ fontSize: '2rem' }}>
@@ -75,7 +76,7 @@ const Display = () => {
       </Box>
 
       {/* Middle Graphs */}
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
@@ -142,7 +143,7 @@ const Display = () => {
         </Card>
       </Box>
 
-      {/* Bottom Card */}
+      {/* Bottom Card 
       <Card
         sx={{
           width: '93%',
@@ -165,7 +166,8 @@ const Display = () => {
           alt="Calculation"
           sx={{ width: '100%', height: '80%', objectFit: 'cover' }}
         />
-      </Card>
+      </Card>   */}
+      <Visualize />
     </Box>
   );
 };
