@@ -3,27 +3,31 @@
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import React from "react";
-
+import { useEmission } from "../../Context/EmmissionContext";
 // Register required Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const EmissionDonutChart = () => {
+  const { emission, transportEmission ,electricityEmission } = useEmission(); // ✅ Access machine & transport emissions
+  const totalEmission = (Number(emission) || 0) + (Number(transportEmission) || 0) + (Number(electricityEmission) || 0);
+  const arr=[]
+
   // Chart data (labels + values + colors)
   const data = {
     labels: [
       "Machines",
       "Transportation",
-      "Water Usage",
+      // "Water Usage",
       "Electricity",
       "Other",
     ],
     datasets: [
       {
-        data: [46, 25, 8, 16, 5],
+        data: [46, 25, 29, 0],
         backgroundColor: [
-          "#1E1B4B", // Machines - dark purple
+          "#7DD3FC", // Machines - light blue
           "#4338CA", // Transportation - medium purple
-          "#7DD3FC", // Water Usage - light blue
+          // "#1E1B4B", // Water Usage - dark purple
           "#3B82F6", // Electricity - blue
           "#D1D5DB", // Other - gray
         ],

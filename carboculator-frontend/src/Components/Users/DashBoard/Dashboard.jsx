@@ -5,7 +5,7 @@ import Display from './Display';
 import Calculate from './Calculatation/Calculate';
 import PlantTree from './PlantTree';
 import Credits from './Credits';
-import Visualize from './Visualization/Visualize';
+import Monitor from './Monitor';
 const Dash = () => {
   const [activePage, setActivePage] = useState('display');
 
@@ -15,7 +15,7 @@ const Dash = () => {
       <SideBar setActivePage={setActivePage} />
       {activePage === 'display' && <Display />}
       {activePage === 'calculate' && <Calculate />}
-      {activePage === 'visualize' && <Visualize />}
+      {activePage === 'monitor' && <Monitor />}
       {activePage === 'tree' && <PlantTree />}
       {activePage === 'credits' && <Credits />}
 

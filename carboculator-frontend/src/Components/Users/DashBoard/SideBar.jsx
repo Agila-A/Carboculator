@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 const sidebarItem1 = [
   { icon: <HomeOutlinedIcon />, text: 'Home', page: 'display' },
   { icon: <CalculateOutlinedIcon />, text: 'Calculate', page: 'calculate' },
-  { icon: <TimelineOutlinedIcon />, text: 'Visualize', page: 'visualize' },
+  { icon: <TimelineOutlinedIcon />, text: 'Monitor', page: 'monitor' },
   { icon: <SpaOutlinedIcon />, text: 'Plant a Tree', page: 'tree' },
   { icon: <MonetizationOnOutlinedIcon />, text: 'Credits', page: 'credits' },
 ];
