@@ -12,6 +12,7 @@ const authRoutes = require('./routes/auth'); // Assume new naming
 const machineRoutes = require('./routes/machineRoutes');
 const transportRoutes = require('./routes/transportRoutes');
 const resultRoutes = require('./routes/resultRoutes');
+const electricityRoutes = require('./routes/electricityRoutes')
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/machine', machineRoutes);
 app.use('/api/transport', transportRoutes);
 app.use('/api', resultRoutes);
+app.use('/api/electricity' , electricityRoutes)
 
 // Sync DB and start server
 sequelize.sync()
