@@ -68,6 +68,7 @@ const Display = ({setActivePage}) => {
               boxShadow: '0 8px 20px rgba(0, 0, 0, 0.06)',
               transition: 'all 0.3s ease',
               height:"8.5rem",
+              border:"2px solid #ddd",
               '&:hover': {
                 transform: 'scale(1.015)',
                 borderColor: '#446891',

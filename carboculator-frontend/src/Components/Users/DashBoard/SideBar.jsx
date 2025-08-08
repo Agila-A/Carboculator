@@ -72,7 +72,7 @@ const SideBar = ({ activePage,setActivePage }) => {
                   py: 1,
                   backgroundColor:
                     activePage === item.page ? 'rgba(128, 128, 128, 0.55)' : 'transparent', // blue-500
-                  color: activePage === item.page ? '[#fffff]' : '#1c2a3b',
+                 
                   '&:hover': {
                     backgroundColor: 'rgba(128, 128, 128, 0.55)',
                   },
