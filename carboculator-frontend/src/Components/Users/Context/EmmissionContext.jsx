@@ -8,6 +8,8 @@ export const EmissionProvider = ({ children }) => {
   const [transportEmission, setTransportEmission] = useState(null); // ✅ New transport emission state
   const [electricityEmission,setElectricityEmission]=useState(null);
 
+  
+
   return (
     <EmissionContext.Provider value={{ 
       emission, 

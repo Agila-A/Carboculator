@@ -4,19 +4,19 @@ import co2 from '../../../assets/Dashboardimg/co2.png';
 import emmision from '../../../assets/Dashboardimg/emmision.png';
 import quota from '../../../assets/Dashboardimg/quota.png';
 import credits from '../../../assets/Dashboardimg/credits.png';
-import cal from '../../../assets/Dashboardimg/cal.jpg';
-import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+// import cal from '../../../assets/Dashboardimg/cal.jpg';
+// import {
+//   BarChart,
+//   Bar,
+//   LineChart,
+//   Line,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   Legend,
+//   ResponsiveContainer,
+// } from "recharts";
 import Visualize from './Visualization/Visualize';
 
 
@@ -93,8 +93,8 @@ const Display = ({setActivePage}) => {
             />
 
             {/* Text Below Image */}
-            <CardContent sx={{ textAlign: 'center', p: 0 ,bgcolor:"none"}}>
-              <Typography variant="h6" fontWeight="bold">
+            <CardContent sx={{ textAlign: 'center', p: 0 ,bgcolor:"#f8f8f8"}}>
+              <Typography variant="h7" fontWeight="bold" sx={{pt:"0.4%"}}>
                 {image.name}
               </Typography>
             </CardContent>
