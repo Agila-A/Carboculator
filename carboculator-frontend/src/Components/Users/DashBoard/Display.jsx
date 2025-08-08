@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardMedia, Typography } from '@mui/material';
+import { Box, Card, CardMedia,CardContent, Typography } from '@mui/material';
 import co2 from '../../../assets/Dashboardimg/co2.png';
 import emmision from '../../../assets/Dashboardimg/emmision.png';
 import quota from '../../../assets/Dashboardimg/quota.png';
@@ -20,7 +20,7 @@ import {
 import Visualize from './Visualization/Visualize';
 
 
-const Display = () => {
+const Display = ({setActivePage}) => {
   const data = [
   { year: "2021", emitted: 1400, neutralized: 800 },
   { year: "2022", emitted: 700, neutralized: 300 },
@@ -28,52 +28,79 @@ const Display = () => {
   { year: "2024", emitted: 1200, neutralized: 900 },
 ];
 
+  const dashimg=[
+    {img:emmision,name:"Calculate",path:"/calculate"},
+    {img:credits,name:"Monitor",path:"/monitor"},
+    {img:co2,name:"Plant Tree",path:"/plant-tree"},
+    {img:quota,name:"Credits",path:"/credits"}
+  ]
+
   return (
     <Box sx={{ p: 2, width:'85%',backgroundColor: '#f9f9f9', minHeight: '100vh',display:'flex',flexDirection:"column",gap:'1rem',overflowY:"auto"}}>
       {/* Title */}
       <Box sx={{ px: '2rem', mb: '2rem' }}>
-  <Typography fontWeight="bold" color="#222" sx={{ fontSize: '2rem' }}>
-    Carboculator
-  </Typography>
-</Box>
+        <Typography fontWeight="bold" color="#222" sx={{ fontSize: '2rem' }}>
+          Carboculator
+        </Typography>
+      </Box>
 
 
       {/* Top Four Cards */}
       <Box
+        
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: "space-around",
-          mb: 4,
+          mb: 0,
+          gap: 2,
+          
         }}
+        
       >
-        {[emmision, co2, quota, credits].map((img, idx) => (
+        {dashimg.map((image, idx) => (
           <Card
             key={idx}
             sx={{
               width: "100%",
-              maxWidth:"14.375rem",
-              aspectRatio: '260 / 120',
+              maxWidth: "14.375rem",
               borderRadius: 4,
               boxShadow: '0 8px 20px rgba(0, 0, 0, 0.06)',
-              border: '2px solid #e0e0e0',
               transition: 'all 0.3s ease',
+              height:"8.5rem",
               '&:hover': {
                 transform: 'scale(1.015)',
                 borderColor: '#446891',
                 boxShadow: '0 12px 25px rgba(0, 0, 0, 0.12)',
               },
             }}
+            onClick={() => {
+              setActivePage(image.name)
+            }}
           >
+            {/* Image */}
             <CardMedia
               component="img"
-              image={img}
-              alt={`Card ${idx}`}
-              sx={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 4 }}
+              image={image.img}
+              alt={image.name}
+              sx={{
+                width: '100%',
+                height: 100,
+                objectFit: 'cover',
+                borderRadius: '16px 16px 0 0'
+              }}
             />
+
+            {/* Text Below Image */}
+            <CardContent sx={{ textAlign: 'center', p: 0 ,bgcolor:"none"}}>
+              <Typography variant="h6" fontWeight="bold">
+                {image.name}
+              </Typography>
+            </CardContent>
           </Card>
         ))}
       </Box>
+
 
       {/* Middle Graphs */}
       {/* <Box

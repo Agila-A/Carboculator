@@ -12,12 +12,12 @@ const Dash = () => {
   return (
     <Box sx={{ width: '100%', height: '100vh', display: 'flex', overflow: 'hidden' }}>
   
-      <SideBar setActivePage={setActivePage} />
-      {activePage === 'display' && <Display />}
-      {activePage === 'calculate' && <Calculate />}
-      {activePage === 'monitor' && <Monitor />}
-      {activePage === 'tree' && <PlantTree />}
-      {activePage === 'credits' && <Credits />}
+      <SideBar activePage={activePage} setActivePage={setActivePage} />
+      {activePage === 'display' && <Display setActivePage={setActivePage}/>}
+      {activePage === 'Calculate' && <Calculate />}
+      {activePage === 'Monitor' && <Monitor />}
+      {activePage === 'Plant Tree' && <PlantTree />}
+      {activePage === 'Credits' && <Credits />}
 
     </Box>
   );
