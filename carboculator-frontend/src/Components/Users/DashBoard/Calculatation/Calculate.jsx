@@ -20,18 +20,25 @@ const Calculate = () => {
                   backgroundColor: activeComponent === "machine"
                     ? 'rgba(128, 128, 128, 0.55)' 
                     : '#D9D9D9',
-                  color: '#1c2a3b',
+                  color: 'black',
                   width: "16.53rem",
-                  height:activeComponent==="machine"?'2.9rem':"",
+                  // pt:activeComponent==="machine"?'1%':"0%",
+                  // pb:activeComponent==="machine"?'1%':"0%",
                   // scale: activeComponent==="machine"? "1.1":"1",
                   '&:hover': {
                     backgroundColor: 'rgba(128, 128, 128, 0.55)',
                   }
                 }}
- onClick={() => setActiveComponent('machine')}>Machines</Button>
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('transport')}>Transportation</Button>
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('electricity')}>Electricity</Button>
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('result')}>Results</Button>
+             onClick={() => setActiveComponent('machine')}>Machines</Button>
+          <Button variant="contained" sx={{ backgroundColor: activeComponent === "transport"
+                    ? 'rgba(128, 128, 128, 0.55)' 
+                    : '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('transport')}>Transportation</Button>
+          <Button variant="contained" sx={{ backgroundColor: activeComponent === "electricity"
+                    ? 'rgba(128, 128, 128, 0.55)' 
+                    : '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('electricity')}>Electricity</Button>
+          <Button variant="contained" sx={{ backgroundColor: activeComponent === "result"
+                    ? 'rgba(128, 128, 128, 0.55)' 
+                    : '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('result')}>Results</Button>
           {/* <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "13.25rem" }} onClick={() => setActiveComponent('water')}>Water Usage</Button> */}
         </Box>
          <Box >
