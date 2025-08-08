@@ -77,7 +77,7 @@ const SideBar = ({ activePage,setActivePage }) => {
                     backgroundColor: 'rgba(128, 128, 128, 0.55)',
                   },
                 }}
-                className={`${activePage === item.text ? "bg-blue-500 text-white" : ""}`}
+                
               >
                 <ListItemIcon sx={{ color: '#4a5d73', minWidth: 36 }}>
                   {item.icon}
