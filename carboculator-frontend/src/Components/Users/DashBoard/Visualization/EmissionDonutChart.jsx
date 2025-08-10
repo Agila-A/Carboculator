@@ -1,25 +1,17 @@
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import React, { useEffect } from "react";
+import React from "react";
 import { useEmission } from "../../Context/EmmissionContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const EmissionDonutChart = () => {
-  const { emission, transportEmission, electricityEmission } = useEmission();
+  const { totalEmission, percentageBreakdown } = useEmission();
 
-
-  const machineEmission = Number(emission) || 0;
-  const transport = Number(transportEmission) || 0;
-  const electricity = Number(electricityEmission) || 0;
-
-  const totalEmission = machineEmission + transport + electricity;
-
-  const mac = totalEmission ? ((machineEmission / totalEmission) * 100) : 0;
-  const trans = totalEmission ? ((transport / totalEmission) * 100) : 0;
-  const elec = totalEmission ? ((electricity / totalEmission) * 100) : 0;
+  const mac = Number(percentageBreakdown.emission) || 0;
+  const trans = Number(percentageBreakdown.transport) || 0;
+  const elec = Number(percentageBreakdown.electricity) || 0;
   const other = totalEmission ? (100 - (mac + trans + elec)) : 0;
-  
 
   const data = {
     labels: ["Machines", "Transportation", "Electricity", "Other"],
@@ -74,9 +66,9 @@ const EmissionDonutChart = () => {
                   marginRight: 8,
                   borderRadius: "50%",
                 }}></span>
-                <span className="">{label}</span>
+                <span>{label}</span>
               </div>
-              <span className="ml-[%]">{data.datasets[0].data[index].toFixed(2)}%</span>
+              <span>{data.datasets[0].data[index].toFixed(2)}%</span>
             </li>
           ))}
         </ul>
