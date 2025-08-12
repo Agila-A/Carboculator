@@ -7,7 +7,7 @@ const cors = require('cors');
 dotenv.config({ path: './.env' }); // Load environment variables
 
 const { sequelize, connectDB } = require('./config/database'); // Assumes connectDB is a custom connection function
-const User = require('./models/User'); // Ensure this model is initialized
+// const User = require('./models/User'); // Ensure this model is initialized
 const authRoutes = require('./routes/auth'); // Assume new naming
 const machineRoutes = require('./routes/machineRoutes');
 const transportRoutes = require('./routes/transportRoutes');

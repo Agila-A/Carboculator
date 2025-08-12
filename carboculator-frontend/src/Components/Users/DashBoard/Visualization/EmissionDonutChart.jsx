@@ -6,13 +6,17 @@ import { useEmission } from "../../Context/EmmissionContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const EmissionDonutChart = () => {
-  const { totalEmission, percentageBreakdown } = useEmission();
+  const { emission, transportEmission, electricityEmission} = useEmission();
 
-  const mac = Number(percentageBreakdown.emission) || 0;
-  const trans = Number(percentageBreakdown.transport) || 0;
-  const elec = Number(percentageBreakdown.electricity) || 0;
-  const other = totalEmission ? (100 - (mac + trans + elec)) : 0;
+  const machineEmission = Number(emission) || 0;
+const transport = Number(transportEmission) || 0;
+const electricity = Number(electricityEmission) || 0;
+const totalEmission = machineEmission + transport + electricity;
 
+const mac = totalEmission ? (machineEmission / totalEmission) * 100 : 0;
+const trans = totalEmission ? (transport / totalEmission) * 100 : 0;
+const elec = totalEmission ? (electricity / totalEmission) * 100 : 0;
+const other = totalEmission ? (100 - (mac + trans + elec)) : 0;
   const data = {
     labels: ["Machines", "Transportation", "Electricity", "Other"],
     datasets: [
