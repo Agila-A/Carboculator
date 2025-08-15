@@ -1,4 +1,4 @@
-const electricityData = require('../models/electricityData');
+const ElectricityData = require('../models/electricityData');
 
 // POST: Save electricity data
 exports.saveElectricityData = async (req, res) => {
@@ -9,7 +9,10 @@ exports.saveElectricityData = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const newData = await electricityData.create({ source, amount });
+    const userId = req.user.id;
+
+    const newData = await ElectricityData.create({ source, amount, userId });
+
     res.status(201).json({ message: 'Electricity data saved successfully', data: newData });
   } catch (error) {
     console.error('Error saving electricity data:', error);
@@ -20,11 +23,23 @@ exports.saveElectricityData = async (req, res) => {
 // GET: Get all electricity data
 exports.getAllElectricityData = async (req, res) => {
   try {
-    const data = await electricityData.findAll();
-    res.status(200).json(data);
+    // Ensure middleware set req.user
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized: User not found in request' });
+    }
+
+    const userId = req.user.id;
+
+    const data = await ElectricityData.findAll({
+      where: { userId }
+    });
+
+    return res.status(200).json(data);
   } catch (error) {
     console.error('Error fetching electricity data:', error);
-    res.status(500).json({ message: 'Server error while fetching electricity data' });
+    return res.status(500).json({
+      message: 'Server error while fetching electricity data'
+    });
   }
 };
 
@@ -32,7 +47,7 @@ exports.getAllElectricityData = async (req, res) => {
 exports.deleteElectricityData = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await electricityData.destroy({ where: { id } });
+    const deleted = await ElectricityData.destroy({ where: { id } });
 
     if (deleted === 0) {
       return res.status(404).json({ message: 'Electricity data not found' });

@@ -28,12 +28,34 @@ const Electricity = () => {
   const [amount, setAmount] = useState('');
   const [errors, setErrors] = useState({});
   const [data, setData] = useState([]);
-  const [totalEmission, setTotalEmission] = useState(0); // ✅ new state
-  const {setElectricityEmission}=useEmission();
+  const [totalEmission, setTotalEmission] = useState(0);
+  const { setElectricityEmission } = useEmission();
 
-  // 🔃 Fetch data from backend on mount
+  const token = localStorage.getItem("token"); // ✅ Get token for auth requests
+
+  const saveElectricityEmission = async (totalElectricityEmission) => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found. Please log in again.');
+          return;
+        }
+        await axios.post(
+          'http://localhost:5000/api/emission',
+          { totalElectricityEmission },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log("✅ Electricity emission saved successfully to emissionData table");
+      } catch (err) {
+        console.error("❌ Failed to save machine emission:", err);
+      }
+    };
+
+  // 🔃 Fetch data for the logged-in user
   useEffect(() => {
-    axios.get('http://localhost:5000/api/electricity')
+    axios.get('http://localhost:5000/api/electricity', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(res => {
         const updated = res.data.map(item => ({
           ...item,
@@ -41,49 +63,52 @@ const Electricity = () => {
         }));
         setData(updated);
 
-        // ✅ Calculate total emission
+        // ✅ Calculate total
         let total = 0;
-        res.data.forEach(item => {
-          const factor = emissionFactors[item.source] || 0;
-          total += (item.amount * factor) / 1000;
+        updated.forEach(item => {
+          total += (item.amount * (emissionFactors[item.source] || 0)) / 1000;
         });
         setTotalEmission(total.toFixed(2));
       })
       .catch(err => console.error('Error fetching data:', err));
   }, []);
 
-  // ➕ Add new entry
+  // ➕ Add entry and store emission in EmissionData
   const handleAdd = async () => {
     const newErrors = {};
     if (!source.trim()) newErrors.source = true;
     if (!amount.trim()) newErrors.amount = true;
-
     setErrors(newErrors);
     if (Object.keys(newErrors).length) return;
 
     try {
-      const res = await axios.post('http://localhost:5000/api/electricity', {
-        source,
-        amount: Number(amount)
-      });
+      const res = await axios.post(
+        'http://localhost:5000/api/electricity',
+        { source, amount: Number(amount) },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       const newItem = res.data.data;
       const factor = emissionFactors[source] || 0;
       const calculatedEmission = ((amount * factor) / 1000).toFixed(4);
 
-      const updatedData = [...data, {
-        ...newItem,
-        emission: calculatedEmission
-      }];
-
+      const updatedData = [...data, { ...newItem, emission: calculatedEmission }];
       setData(updatedData);
 
-      // ✅ Recalculate total
+      // ✅ Recalculate total and save to EmissionData table
       let total = 0;
       updatedData.forEach(item => {
         total += (item.amount * (emissionFactors[item.source] || 0)) / 1000;
       });
-      setTotalEmission(total.toFixed(2));
+      const newTotal = total.toFixed(2);
+      setTotalEmission(newTotal);
+
+      // 📤 Send total to EmissionData backend
+      await axios.post(
+        'http://localhost:5000/api/emission',
+        { type: "Electricity", totalEmission: newTotal },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       setSource('');
       setAmount('');
@@ -92,27 +117,39 @@ const Electricity = () => {
     }
   };
 
-  // 🗑 Delete entry
+  // 🗑 Delete entry and update total
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/electricity/${id}`);
+      await axios.delete(`http://localhost:5000/api/electricity/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const updatedData = data.filter(item => item.id !== id);
       setData(updatedData);
 
-      // ✅ Recalculate total
       let total = 0;
       updatedData.forEach(item => {
         total += (item.amount * (emissionFactors[item.source] || 0)) / 1000;
       });
-      setTotalEmission(total.toFixed(2));
+      const newTotal = total.toFixed(2);
+      setTotalEmission(newTotal);
+
+      // 📤 Update EmissionData backend
+      await axios.post(
+        'http://localhost:5000/api/emission',
+        { type: "Electricity", totalEmission: newTotal },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
     } catch (err) {
       console.error('Error deleting item:', err);
     }
   };
 
-  useEffect(()=>{
+  // 📌 Sync with context
+  useEffect(() => {
     setElectricityEmission(totalEmission);
-  },[totalEmission])
+    if(totalEmission>0)
+      saveElectricityEmission(totalEmission)
+  }, [totalEmission]);
 
     
 

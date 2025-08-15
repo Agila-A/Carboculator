@@ -1,8 +1,6 @@
 import { Box, Button, TextField, Typography, Autocomplete, Tooltip } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ResultPage from './Result';
-import Result from './Result';
 import { useEmission } from '../../Context/EmmissionContext';
 
 const Machine = () => {
@@ -27,28 +25,45 @@ const Machine = () => {
   const [machine, setMachine] = useState('');
   const [errors, setErrors] = useState({});
   const [data, setData] = useState([]);
-  const [machineEmission, setMachineEmission] = useState(0); // ✅ Emission state
+  const [machineEmission, setMachineEmission] = useState(0);
   const { setEmission } = useEmission();
 
-  const fetchData = async () => {
-  try {
-    // ✅ Fetch token from localStorage
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found. Please log in again.');
-      return;
-    }
-
-    // ✅ Send token with request
-    const res = await axios.get('http://localhost:5000/api/machine', {
-      headers: {
-        Authorization: `Bearer ${token}`
+  // ✅ Function to save machine emission to emissionData table
+  const saveMachineEmission = async (totalMachineEmission) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found. Please log in again.');
+        return;
       }
+      await axios.post(
+        'http://localhost:5000/api/emission',
+        { totalMachineEmission },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log("✅ Machine emission saved successfully to emissionData table");
+    } catch (err) {
+      console.error("❌ Failed to save machine emission:", err);
+    }
+  };
+
+  const fetchData = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('❌ No token found. Please log in again.');
+    alert('Session expired. Please log in again.');
+    return;
+  }
+  
+  try {
+    const res = await axios.get("http://localhost:5000/api/machine", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     setData(res.data);
 
-    // ✅ Calculate emissions
     let total = 0;
     res.data.forEach(item => {
       const factor = emissionFactors[item.fuel] || 0;
@@ -57,7 +72,13 @@ const Machine = () => {
     setMachineEmission(total.toFixed(2));
 
   } catch (err) {
-    console.error('Failed to fetch data:', err);
+    if (err.response?.status === 401) {
+      console.error("❌ Unauthorized: Token expired or invalid");
+      alert("Session expired. Please log in again.");
+      // Optional: redirect to login page
+    } else {
+      console.error('Failed to fetch data:', err);
+    }
   }
 };
 
@@ -67,71 +88,68 @@ const Machine = () => {
   }, []);
 
   const handleSubmit = async () => {
-  const newErrors = {};
-  if (!machine.trim()) newErrors.machine = true;
-  if (!count.trim()) newErrors.count = true;
-  if (!fuel.trim()) newErrors.fuel = true;
-  if (!hour.trim()) newErrors.hour = true;
+    const newErrors = {};
+    if (!machine.trim()) newErrors.machine = true;
+    if (!count.trim()) newErrors.count = true;
+    if (!fuel.trim()) newErrors.fuel = true;
+    if (!hour.trim()) newErrors.hour = true;
 
-  setErrors(newErrors);
-  if (Object.keys(newErrors).length) return;
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length) return;
 
-  // ✅ Calculate emission
-  const factor = emissionFactors[fuel] || 0;
-  const emission = (factor * Number(count) * Number(hour)).toFixed(2);
+    const factor = emissionFactors[fuel] || 0;
+    const emission = (factor * Number(count) * Number(hour)).toFixed(2);
 
-  const newEntry = { machine, count, fuel, hour, emission };
+    const newEntry = { machine, count, fuel, hour, emission };
 
-  try {
-    // ✅ Fetch token from localStorage
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('No token found. Please log in again.');
-      return;
-    }
-
-    // ✅ Send token in Authorization header
-    const res = await axios.post(
-      'http://localhost:5000/api/machine',
-      newEntry,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('No token found. Please log in again.');
+        return;
       }
-    );
 
-    if (res.status === 201) {
-      setMachine('');
-      setCount('');
-      setFuel('');
-      setHour('');
-      fetchData();
+      const res = await axios.post(
+        'http://localhost:5000/api/machine',
+        newEntry,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (res.status === 201) {
+        setMachine('');
+        setCount('');
+        setFuel('');
+        setHour('');
+        fetchData();
+      }
+    } catch (err) {
+      console.error('Error sending data:', err);
+      alert('Failed to store machine data');
     }
-  } catch (err) {
-    console.error('Error sending data:', err);
-    alert('Failed to store machine data');
-  }
-};
-
-
+  };
 
   const remove = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/machine/${id}`);
-      fetchData(); // Reload list after delete
+      await axios.delete(`http://localhost:5000/api/machine/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      fetchData();
     } catch (err) {
       console.error('Error deleting:', err);
       alert('Failed to delete from database');
     }
   };
+
+  // ✅ Whenever machineEmission changes, update context & DB
   useEffect(() => {
-  setEmission(machineEmission);
-}, [machineEmission]);
+    setEmission(machineEmission);
+    if (machineEmission > 0) {
+      saveMachineEmission(machineEmission);
+    }
+  }, [machineEmission]);
 
   return (
     <Box>
-     
       <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "30rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
         <Typography variant='h5' sx={{ fontWeight: 'bold', color: "#446891", ml: '2rem', mt: '1.5rem' }}>
           Input Details
@@ -241,7 +259,6 @@ const Machine = () => {
   );
 };
 
-// 💅 Shared styles
 const cellStyle = {
   width: "9rem",
   height: '2.5rem',

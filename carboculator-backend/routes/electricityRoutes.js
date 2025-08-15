@@ -5,9 +5,10 @@ const {
   getAllElectricityData,
   deleteElectricityData
 } = require('../controllers/electricityController');
+const protect = require('../middleware/protect');
 
-router.post('/', saveElectricityData);
-router.get('/', getAllElectricityData);
-router.delete('/:id', deleteElectricityData);
+router.post('/',protect, saveElectricityData);
+router.get('/', protect,getAllElectricityData);
+router.delete('/:id',protect, deleteElectricityData);
 
 module.exports = router;

@@ -3,10 +3,10 @@ import { Box, Typography } from '@mui/material';
 import { useEmission } from '../../Context/EmmissionContext'; // ✅ Import context
 
 const Result = () => {
-  const { emission, transportEmission ,electricityEmission } = useEmission(); // ✅ Access machine & transport emissions
-  const totalEmission = (Number(emission) || 0) + (Number(transportEmission) || 0) + (Number(electricityEmission) || 0); // ✅ Total combined
-  const noOfWorkers=750;
-  const perCapitaEmission=(totalEmission/noOfWorkers).toFixed(3);
+  // const { emission, transportEmission ,electricityEmission } = useEmission(); // ✅ Access machine & transport emissions
+  // const totalEmission = (Number(emission) || 0) + (Number(transportEmission) || 0) + (Number(electricityEmission) || 0); // ✅ Total combined
+  // const noOfWorkers=750;
+  // const perCapitaEmission=(totalEmission/noOfWorkers).toFixed(3);
   return (
     <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "31.8rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
       <Typography 
@@ -47,7 +47,7 @@ const Result = () => {
             Emission from Machines
           </Box>
           <Box sx={{ border: '1px solid grey', width: "12.5rem", height: "3.44rem", borderRadius: "0.5rem", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {emission} kg
+            {/* {emission} kg */}
           </Box>
         </Box>
 
@@ -56,7 +56,7 @@ const Result = () => {
             Emission from Transportation
           </Box>
           <Box sx={{ border: '1px solid grey', width: "12.5rem", height: "3.44rem", borderRadius: "0.5rem", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {transportEmission} kg
+            {/* {transportEmission} kg */}
           </Box>
         </Box>
 
@@ -65,7 +65,7 @@ const Result = () => {
             Emission from Electricity
           </Box>
           <Box sx={{ border: '1px solid grey', width: "12.5rem", height: "3.44rem", borderRadius: "0.5rem" , display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            {electricityEmission} kg
+            {/* {electricityEmission} kg */}
           </Box>
         </Box>
       </Box>

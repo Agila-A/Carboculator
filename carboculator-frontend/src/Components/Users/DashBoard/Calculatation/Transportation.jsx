@@ -23,80 +23,131 @@ const Transportation = () => {
   };
 
   const [fuel, setFuel] = useState('');
-  const [count, setCount] = useState('');
-  const [hour, setHour] = useState('');
-  const [transport, setTransport] = useState('');
-  const [errors, setErrors] = useState({});
-  const [data, setData] = useState([]);
-  const [localTransportEmission, setLocalTransportEmission] = useState(0); // ✅ renamed to avoid conflict
-  const { setTransportEmission } = useEmission(); // ✅ actual context setter
+const [count, setCount] = useState('');
+const [hour, setHour] = useState('');
+const [transport, setTransport] = useState('');
+const [errors, setErrors] = useState({});
+const [data, setData] = useState([]);
+const [transportationEmission, setTransportationEmission] = useState(0);
+const { setTransportEmission } = useEmission();
 
+// ✅ Save transport emission to emissionData table
+const saveTransportEmission = async (totalTransportEmission) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No token found. Please log in again.');
+      return;
+    }
+    await axios.post(
+      'http://localhost:5000/api/emission',
+      { totalTransportEmission },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    console.log("✅ Transport emission saved successfully to emissionData table");
+  } catch (err) {
+    console.error("❌ Failed to save transport emission:", err);
+  }
+};
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/transport');
-      setData(res.data);
+// ✅ Fetch transport data
+const fetchData = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('❌ No token found. Please log in again.');
+    alert('Session expired. Please log in again.');
+    return;
+  }
 
-      // ✅ Calculate emission on fetch
-      let total = 0;
-      res.data.forEach(item => {
-        const factor = emissionFactors[item.fuel] || 0;
-        total += factor * Number(item.count) * Number(item.hour);
-      });
-      setLocalTransportEmission(total.toFixed(2));
+  try {
+  const res = await axios.get("http://localhost:5000/api/transport", {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+  setData(res.data);
 
-    } catch (err) {
+    let total = 0;
+    res.data.forEach(item => {
+      const factor = emissionFactors[item.fuel] || 0;
+      total += factor * Number(item.count) * Number(item.hour);
+    });
+    setTransportationEmission(total.toFixed(2));
+
+  } catch (err) {
+    if (err.response?.status === 401) {
+      console.error("❌ Unauthorized: Token expired or invalid");
+      alert("Session expired. Please log in again.");
+    } else {
       console.error('Failed to fetch data:', err);
     }
-  };
+  }
+};
 
-  useEffect(() => {
+useEffect(() => {
+  fetchData();
+}, []);
+
+// ✅ Handle form submission
+const handleSubmit = async () => {
+  const newErrors = {};
+  if (!transport.trim()) newErrors.transport = true;
+  if (!count.trim()) newErrors.count = true;
+  if (!fuel.trim()) newErrors.fuel = true;
+  if (!hour.trim()) newErrors.hour = true;
+
+  setErrors(newErrors);
+  if (Object.keys(newErrors).length) return;
+
+  const factor = emissionFactors[fuel] || 0;
+  const emission = (factor * Number(count) * Number(hour)).toFixed(2);
+
+  const newEntry = { transport, count, fuel, hour, emission };
+
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('No token found. Please log in again.');
+      return;
+    }
+
+    const res = await axios.post(
+      'http://localhost:5000/api/transport',
+      newEntry,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    if (res.status === 201) {
+      setTransport('');
+      setCount('');
+      setFuel('');
+      setHour('');
+      fetchData();
+    }
+  } catch (err) {
+    console.error('Error sending data:', err);
+    alert('Failed to store transport data');
+  }
+};
+
+// ✅ Delete a transport record
+const remove = async (id) => {
+  try {
+    await axios.delete(`http://localhost:5000/api/transport/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
     fetchData();
-  }, []);
+  } catch (err) {
+    console.error('Error deleting:', err);
+    alert('Failed to delete from database');
+  }
+};
 
-  // ✅ Sync context whenever transportEmission changes
-  useEffect(() => {
-   setTransportEmission(localTransportEmission); // ✅ updates global context
-
-  }, [localTransportEmission]);
-
-  const handleSubmit = async () => {
-    const newErrors = {};
-    if (!transport.trim()) newErrors.transport = true;
-    if (!count.trim()) newErrors.count = true;
-    if (!fuel.trim()) newErrors.fuel = true;
-    if (!hour.trim()) newErrors.hour = true;
-
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length) return;
-
-    const newEntry = { transport, count, fuel, hour };
-
-    try {
-      const res = await axios.post('http://localhost:5000/api/transport', newEntry);
-      if (res.status === 201) {
-        setTransport('');
-        setCount('');
-        setFuel('');
-        setHour('');
-        fetchData(); // ✅ Refresh list and emissions
-      }
-    } catch (err) {
-      console.error('Error saving transport data:', err);
-      alert('Failed to store transport data');
-    }
-  };
-
-  const remove = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/transport/${id}`);
-      fetchData(); // ✅ Refresh after delete
-    } catch (err) {
-      console.error('Error deleting transport data:', err);
-      alert('Failed to delete from database');
-    }
-  };
-
+// ✅ Update context & DB when emission changes
+useEffect(() => {
+  setTransportEmission(transportationEmission);
+  if (transportationEmission > 0) {
+    saveTransportEmission(transportationEmission);
+  }
+}, [transportationEmission]);
   return (
     <Box>
       <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "30rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
@@ -201,7 +252,7 @@ const Transportation = () => {
         </Box>
 
         <Typography sx={{ ml: '2rem', mt: '1rem', color: '#2e7d32', fontWeight: 600 }}>
-          Total Transport Emission: {localTransportEmission} kg CO₂
+          Total Transport Emission: {transportationEmission} kg CO₂
         </Typography>
       </Box>
     </Box>

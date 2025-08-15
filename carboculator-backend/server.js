@@ -13,6 +13,7 @@ const machineRoutes = require('./routes/machineRoutes');
 const transportRoutes = require('./routes/transportRoutes');
 const resultRoutes = require('./routes/resultRoutes');
 const electricityRoutes = require('./routes/electricityRoutes')
+const emissionRoutes = require('./routes/emissionRoutes');
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use('/api/machine', machineRoutes);
 app.use('/api/transport', transportRoutes);
 app.use('/api', resultRoutes);
 app.use('/api/electricity' , electricityRoutes)
+app.use('/api/emission', emissionRoutes);
+
 
 // Sync DB and start server
 sequelize.sync()

@@ -11,6 +11,7 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      jwt.sign({ id: User.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
       // Attach user to request
       req.user = await User.findByPk(decoded.id, { attributes: ['id', 'email'] });
