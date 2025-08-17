@@ -1,23 +1,25 @@
+// emissionRoutes.js
 const express = require('express');
+const { getEmissionByUser } = require('../controllers/emissionController');
+const protect = require('../middleware/protect');
 const router = express.Router();
-const MachineData = require('../models/MachineData');
-const TransportData = require('../models/TransportData');
-const ElectricityData = require('../models/electricityData');
 
-router.get('/result', async (req, res) => {
+router.get('/', protect ,async (req, res) => {
   try {
-    const machineData = await MachineData.findAll();
-    const transportData = await TransportData.findAll();
-    const electricityData = await ElectricityData.findAll();
-
-    res.json({
-      machine: machineData,
-      transport: transportData,
-      electricity: electricityData
+    const userId = req.user.id; // From JWT middleware (auth)
+    
+    const emissionData = await Emission.findOne({
+      where: { userId }
     });
-  } catch (error) {
-    console.error('Error fetching result data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+
+    if (!emissionData) {
+      return res.status(404).json({ message: 'Emission data not found for this user' });
+    }
+
+    res.json(emissionData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

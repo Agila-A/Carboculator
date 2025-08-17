@@ -1,12 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useEmission } from '../../Context/EmmissionContext'; // ✅ Import context
+import axios from 'axios';
+
 
 const Result = () => {
   // const { emission, transportEmission ,electricityEmission } = useEmission(); // ✅ Access machine & transport emissions
   // const totalEmission = (Number(emission) || 0) + (Number(transportEmission) || 0) + (Number(electricityEmission) || 0); // ✅ Total combined
   // const noOfWorkers=750;
   // const perCapitaEmission=(totalEmission/noOfWorkers).toFixed(3);
+  
+  const fetchUserEmission = async () => {
+  try {
+    const token = localStorage.getItem('token');
+
+    const res = await axios.get('/api/emission/my-emission', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+
+    const { electricityEmission, machineEmission, transportEmission } = res.data;
+
+    // Store in separate variables
+    console.log(electricityEmission, machineEmission, transportEmission);
+    const totalValue=electricityEmission + machineEmission  +transportEmission ; 
+    // Or store in a temporary object
+    const emissionValues = {
+      electricityEmission,
+      machineEmission,
+      transportEmission,
+      total:totalValue
+    };
+
+    console.log(emissionValues);
+
+    return emissionValues; // If you want to use later
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+useEffect(()=>{
+  fetchUserEmission();
+},[])
+
   return (
     <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "31.8rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
       <Typography 
