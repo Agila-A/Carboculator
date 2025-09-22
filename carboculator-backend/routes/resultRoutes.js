@@ -1,6 +1,5 @@
 // emissionRoutes.js
 const express = require('express');
-const { getEmissionByUser } = require('../controllers/emissionController');
 const protect = require('../middleware/protect');
 const router = express.Router();
 

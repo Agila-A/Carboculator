@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -16,9 +14,14 @@ const electricityRoutes = require('./routes/electricityRoutes')
 const emissionRoutes = require('./routes/emissionRoutes');
 
 const app = express();
+const corsOptions = {
+    origin: 'http://localhost:5173', // The exact origin of your frontend
+    credentials: true, // Allow cookies to be sent with requests
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
 
 // Middlewares
-app.use(cors());
+app.use(cors(corsOptions)); // This is the only CORS middleware you need.
 app.use(express.json());
 
 // Routes
@@ -33,12 +36,12 @@ app.use('/api/emission', emissionRoutes);
 
 // Sync DB and start server
 sequelize.sync()
-  .then(() => {
-    console.log('✅ Database synced: Tables created/updated.');
-    connectDB(); // Optional additional DB connection logic
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
-  })
-  .catch(err => console.error('❌ Error syncing database:', err));
+    .then(() => {
+        console.log('✅ Database synced: Tables created/updated.');
+        connectDB(); // Optional additional DB connection logic
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    })
+    .catch(err => console.error('❌ Error syncing database:', err));
