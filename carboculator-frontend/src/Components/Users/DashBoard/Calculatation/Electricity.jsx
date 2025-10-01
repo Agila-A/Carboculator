@@ -132,7 +132,7 @@ const Electricity = () => {
       });
       const newTotal = total.toFixed(2);
       setTotalEmission(newTotal);
-
+      console.log(newTotal)
       // 📤 Update EmissionData backend
       await axios.post(
         'http://localhost:5000/api/emission',
@@ -147,8 +147,7 @@ const Electricity = () => {
   // 📌 Sync with context
   useEffect(() => {
     setElectricityEmission(totalEmission);
-    if(totalEmission>0)
-      saveElectricityEmission(totalEmission)
+    saveElectricityEmission(totalEmission)
   }, [totalEmission]);
 
     

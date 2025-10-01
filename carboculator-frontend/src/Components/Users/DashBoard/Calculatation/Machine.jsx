@@ -28,7 +28,7 @@ const Machine = () => {
   const [machineEmission, setMachineEmission] = useState(0);
   const { setEmission } = useEmission();
 
-  // ✅ Function to save machine emission to emissionData table
+  // ✅ Save machine emission to emissionData table
   const saveMachineEmission = async (totalMachineEmission) => {
     try {
       const token = localStorage.getItem('token');
@@ -47,41 +47,42 @@ const Machine = () => {
     }
   };
 
+  // ✅ Fetch machine data and calculate emission
   const fetchData = async () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    console.error('❌ No token found. Please log in again.');
-    alert('Session expired. Please log in again.');
-    return;
-  }
-  
-  try {
-    const res = await axios.get("http://localhost:5000/api/machine", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    setData(res.data);
-
-    let total = 0;
-    res.data.forEach(item => {
-      const factor = emissionFactors[item.fuel] || 0;
-      total += factor * Number(item.count) * Number(item.hour);
-    });
-    setMachineEmission(total.toFixed(2));
-
-  } catch (err) {
-    if (err.response?.status === 401) {
-      console.error("❌ Unauthorized: Token expired or invalid");
-      alert("Session expired. Please log in again.");
-      // Optional: redirect to login page
-    } else {
-      console.error('Failed to fetch data:', err);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('❌ No token found. Please log in again.');
+      alert('Session expired. Please log in again.');
+      return;
     }
-  }
-};
 
+    try {
+      const res = await axios.get("http://localhost:5000/api/machine", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setData(res.data);
+
+      let total = 0;
+      res.data.forEach(item => {
+        const factor = emissionFactors[item.fuel] || 0;
+        total += factor * Number(item.count) * Number(item.hour);
+      });
+
+      const finalTotal = total.toFixed(2);
+      setMachineEmission(finalTotal);
+      return finalTotal; // 👉 useful for delete
+    } catch (err) {
+      if (err.response?.status === 401) {
+        console.error("❌ Unauthorized: Token expired or invalid");
+        alert("Session expired. Please log in again.");
+      } else {
+        console.error('Failed to fetch data:', err);
+      }
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -120,7 +121,8 @@ const Machine = () => {
         setCount('');
         setFuel('');
         setHour('');
-        fetchData();
+        const newTotal = await fetchData();
+        if (newTotal !== undefined) saveMachineEmission(newTotal);
       }
     } catch (err) {
       console.error('Error sending data:', err);
@@ -133,19 +135,18 @@ const Machine = () => {
       await axios.delete(`http://localhost:5000/api/machine/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-      fetchData();
+      // ✅ Recalculate emissions after deletion and update DB
+      const newTotal = await fetchData();
+      if (newTotal !== undefined) saveMachineEmission(newTotal);
     } catch (err) {
       console.error('Error deleting:', err);
       alert('Failed to delete from database');
     }
   };
 
-  // ✅ Whenever machineEmission changes, update context & DB
+  // ✅ Keep context updated whenever machineEmission changes
   useEffect(() => {
     setEmission(machineEmission);
-    if (machineEmission > 0) {
-      saveMachineEmission(machineEmission);
-    }
   }, [machineEmission]);
 
   return (

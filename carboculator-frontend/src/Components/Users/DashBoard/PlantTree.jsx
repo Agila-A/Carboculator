@@ -96,9 +96,9 @@ const PlantTree = () => {
         return <div style={{ textAlign: "center", padding: "20px" }}>Loading data...</div>;
     }
 
-    if (error) {
-        return <div style={{ textAlign: "center", padding: "20px", color: "red" }}>{error}</div>;
-    }
+    // if (error) {
+    //     return <div style={{ textAlign: "center", padding: "20px", color: "red" }}>{error}</div>;
+    // }
 
     return (
         <div style={{ height: "100vh", width: '85%', margin: 0, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>

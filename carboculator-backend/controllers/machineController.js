@@ -44,6 +44,7 @@ exports.getAllMachineData = async (req, res) => {
 // DELETE: Delete machine data by ID
 exports.deleteMachineData = async (req, res) => {
   try {
+    console.log("Deleting")
     const { id } = req.params;
     const deleted = await MachineData.destroy({ where: { id } });
 
@@ -52,6 +53,7 @@ exports.deleteMachineData = async (req, res) => {
     }
 
     res.status(200).json({ message: 'Machine data deleted successfully' });
+    console.log("Deleted")
   } catch (error) {
     console.error('Error deleting machine data:', error);
     res.status(500).json({ message: 'Server error while deleting machine data' });
