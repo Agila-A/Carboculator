@@ -1,5 +1,6 @@
-const { DataTypes:dt} = require('sequelize');
-const {sequelize} = require('../config/database');
+const { DataTypes: dt } = require('sequelize');
+const { sequelize } = require('../config/database');
+const User = require('../models/user'); // Import User model
 
 const MachineData = sequelize.define('MachineData', {
   machine: {
@@ -18,6 +19,19 @@ const MachineData = sequelize.define('MachineData', {
     type: dt.INTEGER,
     allowNull: false,
   },
+  userId: { // 👈 Add this column
+    type: dt.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id'
+    },
+    onDelete: 'CASCADE'
+  }
 });
+
+// Association: One User → Many MachineData
+User.hasMany(MachineData, { foreignKey: 'userId' });
+MachineData.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = MachineData;

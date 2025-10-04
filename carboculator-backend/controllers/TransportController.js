@@ -1,6 +1,6 @@
 const TransportData = require('../models/TransportData');
 
-// Save transport data
+// POST: Save transport data
 exports.saveTransportData = async (req, res) => {
   try {
     const { transport, count, fuel, hour } = req.body;
@@ -9,7 +9,9 @@ exports.saveTransportData = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const newData = await TransportData.create({ transport, count, fuel, hour });
+    const userId = req.user.id;
+    const newData = await TransportData.create({ transport, count, fuel, hour, userId });
+
     res.status(201).json({ message: 'Transport data saved successfully', data: newData });
   } catch (error) {
     console.error('Error saving transport data:', error);
@@ -17,18 +19,29 @@ exports.saveTransportData = async (req, res) => {
   }
 };
 
-// Get all transport data
-exports.getTransportData = async (req, res) => {
+// GET: Get all transport data
+exports.getAllTransportData = async (req, res) => {
   try {
-    const allData = await TransportData.findAll();
-    res.json(allData);
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized: User not found in request' });
+    }
+
+    const userId = req.user.id;
+
+    const data = await TransportData.findAll({
+      where: { userId }
+    });
+
+    return res.status(200).json(data);
   } catch (error) {
-    console.error('Fetch error:', error);
-    res.status(500).json({ message: 'Server error while fetching transport data' });
+    console.error('Error fetching transport data:', error);
+    return res.status(500).json({
+      message: 'Server error while fetching transport data'
+    });
   }
 };
 
-// Delete transport data by ID
+// DELETE: Delete transport data by ID
 exports.deleteTransportData = async (req, res) => {
   try {
     const { id } = req.params;
@@ -38,7 +51,7 @@ exports.deleteTransportData = async (req, res) => {
       return res.status(404).json({ message: 'Transport data not found' });
     }
 
-    res.json({ message: 'Deleted successfully' });
+    res.status(200).json({ message: 'Transport data deleted successfully' });
   } catch (error) {
     console.error('Error deleting transport data:', error);
     res.status(500).json({ message: 'Server error while deleting transport data' });

@@ -89,7 +89,7 @@ User.prototype.matchPassword = async function(enteredPassword) {
 // Instance method to get JWT token
 User.prototype.getSignedJwtToken = function() {
     return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
-        expiresIn: '1h'
+        expiresIn: '7d'
     });
 };
 

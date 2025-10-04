@@ -21,10 +21,10 @@ import { useNavigate } from 'react-router-dom';
 
 const sidebarItem1 = [
   { icon: <HomeOutlinedIcon />, text: 'Home', page: 'display' },
-  { icon: <CalculateOutlinedIcon />, text: 'Calculate', page: 'calculate' },
-  { icon: <TimelineOutlinedIcon />, text: 'Visualize', page: 'visualize' },
-  { icon: <SpaOutlinedIcon />, text: 'Plant a Tree', page: 'tree' },
-  { icon: <MonetizationOnOutlinedIcon />, text: 'Credits', page: 'credits' },
+  { icon: <CalculateOutlinedIcon />, text: 'Calculate', page: 'Calculate' },
+  { icon: <TimelineOutlinedIcon />, text: 'Monitor', page: 'Monitor' },
+  { icon: <SpaOutlinedIcon />, text: 'Plant a Tree', page: 'Plant Tree' },
+  { icon: <MonetizationOnOutlinedIcon />, text: 'Credits', page: 'Credits' },
 ];
 
 const sidebarItem2 = [
@@ -34,7 +34,9 @@ const sidebarItem2 = [
   { icon: <LogoutOutlinedIcon />, text: 'Logout', isLogout: true },
 ];
 
-const SideBar = ({ setActivePage }) => {
+
+
+const SideBar = ({ activePage,setActivePage }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -53,6 +55,7 @@ const SideBar = ({ setActivePage }) => {
         flexDirection: 'column',
         boxShadow: '2px 0 10px rgba(0,0,0,0.05)',
         p: 2,
+        borderRadius:"0px 20px 20px 0px"
       }}
     >
       <img src={logo} alt="Logo" />
@@ -60,17 +63,21 @@ const SideBar = ({ setActivePage }) => {
       <Box sx={{ flexGrow: 1 }}>
         <List>
           {sidebarItem1.map((item, index) => (
-            <ListItem key={index} disablePadding>
+            <ListItem key={index} disablePadding onClick={() => setActivePage(item.page)} >
               <ListItemButton
-                onClick={() => setActivePage(item.page)}
+                
                 sx={{
                   borderRadius: 2,
                   px: 2,
                   py: 1,
+                  backgroundColor:
+                    activePage === item.page ? 'rgba(128, 128, 128, 0.55)' : 'transparent', // blue-500
+                 
                   '&:hover': {
                     backgroundColor: 'rgba(128, 128, 128, 0.55)',
                   },
                 }}
+                
               >
                 <ListItemIcon sx={{ color: '#4a5d73', minWidth: 36 }}>
                   {item.icon}

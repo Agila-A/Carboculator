@@ -28,25 +28,57 @@ const Transportation = () => {
   const [transport, setTransport] = useState('');
   const [errors, setErrors] = useState({});
   const [data, setData] = useState([]);
-  const [localTransportEmission, setLocalTransportEmission] = useState(0); // ✅ renamed to avoid conflict
-  const { setTransportEmission } = useEmission(); // ✅ actual context setter
+  const [transportationEmission, setTransportationEmission] = useState(0);
+  const { setTransportEmission } = useEmission();
 
-
-  const fetchData = async () => {
+  // ✅ Save transport emission to emissionData table
+  const saveTransportEmission = async (totalTransportEmission) => {
     try {
-      const res = await axios.get('http://localhost:5000/api/transport');
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found. Please log in again.');
+        return;
+      }
+      await axios.post(
+        'http://localhost:5000/api/emission',
+        { totalTransportEmission },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log("✅ Transport emission saved successfully to emissionData table");
+    } catch (err) {
+      console.error("❌ Failed to save transport emission:", err);
+    }
+  };
+
+  // ✅ Fetch transport data and recalc emission
+  const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('❌ No token found. Please log in again.');
+      alert('Session expired. Please log in again.');
+      return;
+    }
+
+    try {
+      const res = await axios.get("http://localhost:5000/api/transport", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       setData(res.data);
 
-      // ✅ Calculate emission on fetch
       let total = 0;
       res.data.forEach(item => {
         const factor = emissionFactors[item.fuel] || 0;
         total += factor * Number(item.count) * Number(item.hour);
       });
-      setLocalTransportEmission(total.toFixed(2));
+      setTransportationEmission(total.toFixed(2));
 
     } catch (err) {
-      console.error('Failed to fetch data:', err);
+      if (err.response?.status === 401) {
+        console.error("❌ Unauthorized: Token expired or invalid");
+        alert("Session expired. Please log in again.");
+      } else {
+        console.error('Failed to fetch data:', err);
+      }
     }
   };
 
@@ -54,12 +86,7 @@ const Transportation = () => {
     fetchData();
   }, []);
 
-  // ✅ Sync context whenever transportEmission changes
-  useEffect(() => {
-   setTransportEmission(localTransportEmission); // ✅ updates global context
-
-  }, [localTransportEmission]);
-
+  // ✅ Handle form submission
   const handleSubmit = async () => {
     const newErrors = {};
     if (!transport.trim()) newErrors.transport = true;
@@ -70,32 +97,57 @@ const Transportation = () => {
     setErrors(newErrors);
     if (Object.keys(newErrors).length) return;
 
-    const newEntry = { transport, count, fuel, hour };
+    const factor = emissionFactors[fuel] || 0;
+    const emission = (factor * Number(count) * Number(hour)).toFixed(2);
+
+    const newEntry = { transport, count, fuel, hour, emission };
 
     try {
-      const res = await axios.post('http://localhost:5000/api/transport', newEntry);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('No token found. Please log in again.');
+        return;
+      }
+
+      const res = await axios.post(
+        'http://localhost:5000/api/transport',
+        newEntry,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       if (res.status === 201) {
         setTransport('');
         setCount('');
         setFuel('');
         setHour('');
-        fetchData(); // ✅ Refresh list and emissions
+        fetchData();
       }
     } catch (err) {
-      console.error('Error saving transport data:', err);
+      console.error('Error sending data:', err);
       alert('Failed to store transport data');
     }
   };
 
+  // ✅ Delete a transport record
   const remove = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/transport/${id}`);
-      fetchData(); // ✅ Refresh after delete
+      await axios.delete(`http://localhost:5000/api/transport/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      // ❌ Don’t call saveTransportEmission here (old value)  
+      // ✅ Instead, refresh and let useEffect handle saving
+      fetchData();
     } catch (err) {
-      console.error('Error deleting transport data:', err);
+      console.error('Error deleting:', err);
       alert('Failed to delete from database');
     }
   };
+
+  // ✅ Update context & DB when emission changes
+  useEffect(() => {
+    setTransportEmission(transportationEmission);
+    saveTransportEmission(transportationEmission);
+  }, [transportationEmission]);
 
   return (
     <Box>
@@ -201,7 +253,7 @@ const Transportation = () => {
         </Box>
 
         <Typography sx={{ ml: '2rem', mt: '1rem', color: '#2e7d32', fontWeight: 600 }}>
-          Total Transport Emission: {localTransportEmission} kg CO₂
+          Total Transport Emission: {transportationEmission} kg CO₂
         </Typography>
       </Box>
     </Box>

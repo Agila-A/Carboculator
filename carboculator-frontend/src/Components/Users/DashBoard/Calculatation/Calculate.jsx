@@ -16,11 +16,31 @@ const Calculate = () => {
       
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ mt: 10, ml: 10 }}>
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('machine')}>Machines</Button>
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('transport')}>Transportation</Button>
+          <Button variant="contained" sx={{
+                  backgroundColor: activeComponent === "machine"
+                    ? 'rgba(128, 128, 128, 0.7)' 
+                    : '#D9D9D9',
+                  color: 'black',transform: activeComponent === "transport" ? "scaleY(1.1)":"",
+                  width: "16.53rem",
+                  // pt:activeComponent==="machine"?'1%':"0%",
+                  // pb:activeComponent==="machine"?'1%':"0%",
+                  // scale: activeComponent==="machine"? "1.1":"1",
+                  '&:hover': {
+                    backgroundColor: 'rgba(128, 128, 128, 0.55)',
+                  }
+                }}
+             onClick={() => setActiveComponent('machine')}>Machines</Button>
+          <Button variant="contained" sx={{ backgroundColor: activeComponent === "transport"
+                    ? 'rgba(128, 128, 128, 0.7)' 
+                    : '#D9D9D9',transform: activeComponent === "transport" ? "scaleY(1.1)":"",
+                    color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('transport')}>Transportation</Button>
+          <Button variant="contained" sx={{ backgroundColor: activeComponent === "electricity"
+                    ? 'rgba(128, 128, 128, 0.7)' 
+                    : '#D9D9D9', color: 'black',transform: activeComponent === "transport" ? "scaleY(1.1)":"", width: "16.53rem" }} onClick={() => setActiveComponent('electricity')}>Electricity</Button>
+          <Button variant="contained" sx={{ backgroundColor: activeComponent === "result"
+                    ? 'rgba(128, 128, 128, 0.7)' 
+                    : '#D9D9D9', color: 'black',transform: activeComponent === "transport" ? "scaleY(1.1)":"", width: "16.53rem" }} onClick={() => setActiveComponent('result')}>Results</Button>
           {/* <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "13.25rem" }} onClick={() => setActiveComponent('water')}>Water Usage</Button> */}
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('electricity')}>Electricity</Button>
-          <Button variant="contained" sx={{ backgroundColor: '#D9D9D9', color: 'black', width: "16.53rem" }} onClick={() => setActiveComponent('result')}>Results</Button>
         </Box>
          <Box >
           {activeComponent === 'machine' && <Mac />}

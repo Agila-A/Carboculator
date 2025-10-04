@@ -9,6 +9,7 @@ import RegistrationPage1 from "./Components/Users/RegistrationPage/RegistrationP
 import RegistrationPage2 from "./Components/Users/RegistrationPage/RegistrationPage2";
 
 
+
 const App = () => {
   return (
     <BrowserRouter>

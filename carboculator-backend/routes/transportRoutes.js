@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const {
   saveTransportData,
-  getTransportData,
+  getAllTransportData,
   deleteTransportData,
 } = require('../controllers/TransportController');
+const protect = require('../middleware/protect');
 
-router.post('/', saveTransportData);
-router.get('/', getTransportData);
-router.delete('/:id', deleteTransportData);
+router.post('/', protect,saveTransportData);
+router.get('/',protect, getAllTransportData);
+router.delete('/:id', protect,deleteTransportData);
 
 module.exports = router;

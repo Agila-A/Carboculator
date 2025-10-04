@@ -8,8 +8,8 @@ exports.saveMachineData = async (req, res) => {
     if (!machine || !count || !fuel || !hour) {
       return res.status(400).json({ message: 'All fields are required' });
     }
-
-    const newData = await MachineData.create({ machine, count, fuel, hour });
+    const userId= req.user.id;
+    const newData = await MachineData.create({ machine, count, fuel, hour ,userId});
     res.status(201).json({ message: 'Machine data saved successfully', data: newData });
   } catch (error) {
     console.error('Error saving machine data:', error);
@@ -20,17 +20,31 @@ exports.saveMachineData = async (req, res) => {
 // GET: Get all machine data
 exports.getAllMachineData = async (req, res) => {
   try {
-    const data = await MachineData.findAll();
-    res.status(200).json(data);
+    // Ensure middleware set req.user
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized: User not found in request' });
+    }
+
+    const userId = req.user.id;
+
+    const data = await MachineData.findAll({
+      where: { userId }
+    });
+
+    return res.status(200).json(data);
   } catch (error) {
     console.error('Error fetching machine data:', error);
-    res.status(500).json({ message: 'Server error while fetching machine data' });
+    return res.status(500).json({
+      message: 'Server error while fetching machine data'
+    });
   }
 };
+
 
 // DELETE: Delete machine data by ID
 exports.deleteMachineData = async (req, res) => {
   try {
+    console.log("Deleting")
     const { id } = req.params;
     const deleted = await MachineData.destroy({ where: { id } });
 
@@ -39,6 +53,7 @@ exports.deleteMachineData = async (req, res) => {
     }
 
     res.status(200).json({ message: 'Machine data deleted successfully' });
+    console.log("Deleted")
   } catch (error) {
     console.error('Error deleting machine data:', error);
     res.status(500).json({ message: 'Server error while deleting machine data' });

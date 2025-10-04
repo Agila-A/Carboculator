@@ -5,14 +5,13 @@ const {
   getAllMachineData,
   deleteMachineData
 } = require('../controllers/machineController');
+const protect = require('../middleware/protect');
 
 // 👉 POST: Save new machine data
-router.post('/', saveMachineData);
-
+router.post('/',protect, saveMachineData);
 // 👉 GET: Fetch all machine data
-router.get('/', getAllMachineData);
-
+router.get('/',protect, getAllMachineData);
 // 👉 DELETE: Delete machine data by ID
-router.delete('/:id', deleteMachineData);
+router.delete('/:id',protect, deleteMachineData);
 
 module.exports = router;

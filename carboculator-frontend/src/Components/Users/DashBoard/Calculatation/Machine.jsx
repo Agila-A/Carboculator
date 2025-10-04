@@ -1,8 +1,6 @@
 import { Box, Button, TextField, Typography, Autocomplete, Tooltip } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ResultPage from './Result';
-import Result from './Result';
 import { useEmission } from '../../Context/EmmissionContext';
 
 const Machine = () => {
@@ -27,23 +25,62 @@ const Machine = () => {
   const [machine, setMachine] = useState('');
   const [errors, setErrors] = useState({});
   const [data, setData] = useState([]);
-  const [machineEmission, setMachineEmission] = useState(0); // ✅ Emission state
+  const [machineEmission, setMachineEmission] = useState(0);
   const { setEmission } = useEmission();
 
-  const fetchData = async () => {
+  // ✅ Save machine emission to emissionData table
+  const saveMachineEmission = async (totalMachineEmission) => {
     try {
-      const res = await axios.get('http://localhost:5000/api/machine');
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found. Please log in again.');
+        return;
+      }
+      await axios.post(
+        'http://localhost:5000/api/emission',
+        { totalMachineEmission },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log("✅ Machine emission saved successfully to emissionData table");
+    } catch (err) {
+      console.error("❌ Failed to save machine emission:", err);
+    }
+  };
+
+  // ✅ Fetch machine data and calculate emission
+  const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('❌ No token found. Please log in again.');
+      alert('Session expired. Please log in again.');
+      return;
+    }
+
+    try {
+      const res = await axios.get("http://localhost:5000/api/machine", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setData(res.data);
 
-      // ✅ Calculate emissions
       let total = 0;
       res.data.forEach(item => {
         const factor = emissionFactors[item.fuel] || 0;
         total += factor * Number(item.count) * Number(item.hour);
       });
-      setMachineEmission(total.toFixed(2));
+
+      const finalTotal = total.toFixed(2);
+      setMachineEmission(finalTotal);
+      return finalTotal; // 👉 useful for delete
     } catch (err) {
-      console.error('Failed to fetch data:', err);
+      if (err.response?.status === 401) {
+        console.error("❌ Unauthorized: Token expired or invalid");
+        alert("Session expired. Please log in again.");
+      } else {
+        console.error('Failed to fetch data:', err);
+      }
     }
   };
 
@@ -61,16 +98,31 @@ const Machine = () => {
     setErrors(newErrors);
     if (Object.keys(newErrors).length) return;
 
-    const newEntry = { machine, count, fuel, hour };
+    const factor = emissionFactors[fuel] || 0;
+    const emission = (factor * Number(count) * Number(hour)).toFixed(2);
+
+    const newEntry = { machine, count, fuel, hour, emission };
 
     try {
-      const res = await axios.post('http://localhost:5000/api/machine', newEntry);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('No token found. Please log in again.');
+        return;
+      }
+
+      const res = await axios.post(
+        'http://localhost:5000/api/machine',
+        newEntry,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       if (res.status === 201) {
         setMachine('');
         setCount('');
         setFuel('');
         setHour('');
-        fetchData(); // Reload list
+        const newTotal = await fetchData();
+        if (newTotal !== undefined) saveMachineEmission(newTotal);
       }
     } catch (err) {
       console.error('Error sending data:', err);
@@ -80,20 +132,25 @@ const Machine = () => {
 
   const remove = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/machine/${id}`);
-      fetchData(); // Reload list after delete
+      await axios.delete(`http://localhost:5000/api/machine/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      // ✅ Recalculate emissions after deletion and update DB
+      const newTotal = await fetchData();
+      if (newTotal !== undefined) saveMachineEmission(newTotal);
     } catch (err) {
       console.error('Error deleting:', err);
       alert('Failed to delete from database');
     }
   };
+
+  // ✅ Keep context updated whenever machineEmission changes
   useEffect(() => {
-  setEmission(machineEmission);
-}, [machineEmission]);
+    setEmission(machineEmission);
+  }, [machineEmission]);
 
   return (
     <Box>
-     
       <Box sx={{ width: "100%", maxWidth: '66.25rem', minHeight: "30rem", border: '2px solid grey', ml: "5rem", mr: "2.5rem" }}>
         <Typography variant='h5' sx={{ fontWeight: 'bold', color: "#446891", ml: '2rem', mt: '1.5rem' }}>
           Input Details
@@ -203,7 +260,6 @@ const Machine = () => {
   );
 };
 
-// 💅 Shared styles
 const cellStyle = {
   width: "9rem",
   height: '2.5rem',
